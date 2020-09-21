@@ -6,19 +6,29 @@
   --color-black: #000000;
   --color-white: #ffffff;
   --color-blue: #0000ff;
+  --color-light-gray: f8f9fa;
 
   /* size */
+  --size-imgWidth-think: 30px;
+  --size-imgHeight-think: 30px;
   --size-imgWidth-small: 50px;
   --size-imgHeight-small: 50px;
+  --size-imgWidth-middle: 270px;
 
+  --size-boxSize-basic: 5px;
   --size-boxSize-small: 10px;
   --size-boxSize-middle: 15px;
   --size-boxSize-middle: 20px;
+  --size-boxSize-large: 100px;
 
+  --size-borderRadius-basic: 5px;
+  --size-borderRadius-think: 15px;
   --size-borderRadius-small: 20px;
   --size-borderRadius: 50%;
 
   /* font-size */
+  --size-fontsize-think: 13px;
+  --size-fontsize-small: 15px;
   --size-fontsize-middle: 20px;
 }
 
@@ -28,6 +38,7 @@
 
 body {
   box-sizing: border-box;
+  background-color: var(--color-light-gray);
 }
 
 a {
@@ -92,6 +103,66 @@ button {
   justify-content: space-around;
 }
 
+/* dreamlog record */
+.dreamlog__record {
+  padding: var(--size-boxSize-small);
+}
+
+.dreamlog__record--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--size-boxSize-middle);
+}
+
+.record__img {
+  margin-bottom: var(--size-boxSize-small);
+}
+
+.record__img img {
+  width: 100%;
+  height: auto;
+}
+
+.record__content {
+  margin-bottom: var(--size-boxSize-large);
+}
+
+.content__title {
+  font-size: var(--size-fontsize-small);
+  font-weight: bold;
+  margin-bottom: var(--size-boxSize-middle);
+}
+
+.content__content {
+  font-size: var(--size-fontsize-think);
+}
+
+.record__property {
+  margin-bottom: var(--size-boxSize-middle);
+  padding-bottom: var(--size-boxSize-middle);
+  border-bottom: 2px solid var(--color-black);
+  opacity: 0.4;
+}
+
+.record__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info__column:first-child {
+  display: flex;
+  align-items: center;
+}
+
+.info__column img {
+  width: var(--size-imgWidth-think);
+  height: var(--size-imgHeight-think);
+  margin-right: var(--size-boxSize-small);
+  border-radius: var(--size-borderRadius);
+}
+
 /* 768(Desktop) */
 /* media query */
 @media screen and (min-width: 768px) {
@@ -101,7 +172,7 @@ button {
     --size-imgHeightD-small: 70px;
 
     /* box size */
-    --size--boxSizeD-small: 20px;
+    --size--boxSizeD-small: 30px;
 
     /* font size */
     --size-fontSizeD-think: 18px;
@@ -190,10 +261,10 @@ button {
     transition: all 250ms ease-in-out;
   }
 
-  .list__item:hover::after{
+  .list__item:hover::after {
     width: 100%;
   }
-
+}
 /* custom grid system -fix container width */
 @media screen and (min-width: 1200px) {
   .container {
