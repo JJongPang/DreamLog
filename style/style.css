@@ -14,13 +14,11 @@
   --size-imgWidth-small: 50px;
   --size-imgHeight-small: 50px;
   --size-imgWidth-middle: 270px;
-
   --size-boxSize-basic: 5px;
   --size-boxSize-small: 10px;
-  --size-boxSize-middle: 15px;
   --size-boxSize-middle: 20px;
+  --size-boxSize-middleCheck: 50px;
   --size-boxSize-large: 100px;
-
   --size-borderRadius-basic: 5px;
   --size-borderRadius-think: 15px;
   --size-borderRadius-small: 20px;
@@ -112,7 +110,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: var(--size-boxSize-middle);
+  margin-bottom: var(--size-boxSize-middleCheck);
 }
 
 .record__img {
