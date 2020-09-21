@@ -4,44 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DreamLog</title>
+    <link rel="stylesheet" href="/style/style.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Ranchers&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/style/style.css" />
   </head>
   <body>
-    <!-- main header -->
-    <header class="main__header">
+    <!-- dreamlog header -->
+    <header class="dreamlog__header">
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <div class="main__header__container">
-              <div class="main__logo">
-                <a href="#" class="logo">
-                  <strong aria-label="DremLog">DreamLog</strong>
+            <div class="dreamlog__header--container">
+              <div class="dreamlog__logo">
+                <a href="#" class="logo__link">
+                  <h1 class="logo__name">
+                    <strong aria-label="DreamLog">DreamLog</strong>
+                  </h1>
                 </a>
               </div>
-              <div class="main__contents">
-                <a href="#" class="main__search">
+              <div class="dreamlog__menu">
+                <a href="#" class="search__link">
                   <i class="fas fa-search" aria-label="검색"></i>
                 </a>
-                <a href="#" class="write__page" aria-label="새 글 작성">
-                  새 글 작성
+                <a href="#" class="write__link">
+                  <span class="wrtie__title" aria-label=" 꿈의 기록 작성">
+                    꿈의 기록 작성
+                  </span>
                 </a>
-                <button
-                  type="menu"
-                  class="my__profile"
-                  aria-label="프로필 드롭 메뉴"
-                >
+                <button class="profile__btn" aria-label="프로필 메뉴">
                   <img
-                    src="https://img.etoday.co.kr/pto_db/2020/06/600/20200606221313_1469361_439_567.png"
+                    src="https://www.issuemaker.kr/news/photo/201808/15196_11140_5422.jpg"
                     alt="profile-img"
                   />
                 </button>
@@ -51,28 +47,28 @@
         </div>
       </div>
     </header>
-    <!-- header menu -->
-    <header class="header__menu">
+    <!-- dreamlog menu -->
+    <section class="dreamlog__menu">
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <ul class="menu__list">
-              <li class="list__item">
-                <a href="#" class="list__item--link">
-                  <i class="far fa-newspaper"></i>
-                  <h3 class="list__item--title">IT트렌드</h3>
-                </a>
-              </li>
-              <li class="list__item">
-                <a href="#" class="list__item--link">
-                  <i class="far fa-clock"></i>
-                  <h3 class="list__item--title">꿈의 기록</h3>
-                </a>
-              </li>
+            <ul class="dreamlog__menu--list">
+              <a href="#" class="list__item--link" aria-label="꿈 의 기록">
+                <li class="list__item">
+                  <i class="fas fa-star-and-crescent"></i>
+                  <span class="item__title">꿈 의 기록</span>
+                </li>
+              </a>
+              <a href="#" class="list__item--link" aria-label="IT트렌드">
+                <li class="list__item">
+                  <i class="fas fa-newspaper"></i>
+                  <span class="item__title">IT트렌드</span>
+                </li>
+              </a>
             </ul>
           </div>
         </div>
       </div>
-    </header>
+    </section>
   </body>
 </html>
