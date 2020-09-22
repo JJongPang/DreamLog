@@ -6,7 +6,7 @@
   --color-black: #000000;
   --color-white: #ffffff;
   --color-blue: #0000ff;
-  --color-light-gray: f8f9fa;
+  --color-light-gray: #f8f9fa;
 
   /* size */
   --size-imgWidth-think: 30px;
@@ -123,6 +123,7 @@ button {
 }
 
 .record__content {
+  padding: var(--size-boxSize-basic);
   margin-bottom: var(--size-boxSize-large);
 }
 
@@ -137,16 +138,22 @@ button {
 }
 
 .record__property {
+  font-size: var(--size-fontsize-think);
   margin-bottom: var(--size-boxSize-middle);
+  padding: 0 var(--size-boxSize-basic);
   padding-bottom: var(--size-boxSize-middle);
-  border-bottom: 2px solid var(--color-black);
-  opacity: 0.4;
+  border-bottom: 2px solid #00000009;
+}
+
+.record__property span {
+  opacity: 0.5;
 }
 
 .record__info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: var(--size-boxSize-basic);
 }
 
 .info__column:first-child {
@@ -261,6 +268,18 @@ button {
 
   .list__item:hover::after {
     width: 100%;
+  }
+
+  /* dreamlog record */
+  .dreamlog__record--container {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .dreamlog__record--container:hover {
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.4);
+    transform: translateY(-10px);
   }
 }
 /* custom grid system -fix container width */
