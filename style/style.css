@@ -1,6 +1,5 @@
 @import "./reset.css";
 @import "./grid.min.css";
-@import "./search.css";
 
 :root {
   /* color */
@@ -49,6 +48,7 @@ button {
   border: none;
   background-color: transparent;
   outline: none;
+  cursor: pointer;
 }
 
 /* ------------main.html------------------ */
@@ -113,6 +113,7 @@ button {
   flex-direction: column;
   align-items: center;
   margin-bottom: var(--size-boxSize-middleCheck);
+  background-color: var(--color-white);
 }
 
 .record__img {
@@ -204,6 +205,131 @@ button {
   outline: none;
 }
 
+/* ------------myPage-Blog.html------------------ */
+/* mypage__profile */
+.my__page {
+  background-color: var(--color-white);
+  margin-bottom: 0;
+}
+
+.mypage__profile {
+  height: 230px;
+  margin-bottom: 20px;
+  background-color: var(--color-white);
+}
+
+.mypage__profile--container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid #00000040;
+}
+
+.mypage__profile--container img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+}
+
+.profile__name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.profile__dream {
+  margin-bottom: 20px;
+}
+
+/* mypage main */
+.mypage__main {
+  background-color: var(--color-white);
+  padding: 10px;
+}
+
+.mypage__menu--list {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.mypage__menu--link {
+  font-size: 18px;
+}
+
+.mypage__menu--link:focus {
+  color: var(--color-blue);
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--color-blue);
+  opacity: 0.5;
+}
+
+.mypage__tag--list {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.mypage__tag--link {
+  font-size: 12px;
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.mypage__tag--link:focus {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  opacity: 0.5;
+}
+
+/* mypage__content */
+.mypage__content {
+  background-color: var(--color-white);
+}
+
+.mypage__content--container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #00000040;
+}
+
+.mypage__content--title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.mypage__content--content {
+  margin-bottom: 20px;
+}
+
+.mypage__content--taglink {
+  font-size: 13px;
+  color: var(--color-white);
+  background-color: blue;
+  padding: 5px;
+  border: 1px solid blue;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.mypage__content--info {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 13px;
+  margin-bottom: 30px;
+  opacity: 0.5;
+}
+
+.mypage__content--info span {
+  margin-right: 5px;
+}
 /* 768(Desktop) */
 /* media query */
 @media screen and (min-width: 768px) {
