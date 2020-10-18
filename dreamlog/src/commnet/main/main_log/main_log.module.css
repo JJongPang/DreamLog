@@ -1,0 +1,13 @@
+.button {
+    margin-right: 1.7rem;
+    margin-bottom: 1.5rem;
+    border: none;
+    background-color: transparent;
+    outline: 0;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+}

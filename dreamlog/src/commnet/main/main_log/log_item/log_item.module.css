@@ -1,0 +1,66 @@
+.item {
+    width: 400px;
+    height: 500px;
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+.contentImg {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.content {
+    display: block;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.info {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1.2rem;
+    opacity: 0.5;
+}
+
+.date {
+    margin-right: 0.5rem;
+}
+
+.comma {
+    margin-right: 0.5rem;
+}
+
+.user__info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.userImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.by {
+    margin-right: 0.5rem;
+    opacity: 0.5;
+}
+
+.subscribe {
+    display: flex;
+    align-items: center;
+}
