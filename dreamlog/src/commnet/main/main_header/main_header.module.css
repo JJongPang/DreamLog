@@ -2,3 +2,15 @@
     display: flex;
     justify-content: flex-start;
 }
+
+.list {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.item {
+    font-size: 1.2em;
+    margin-right: 1.5rem;
+    text-decoration: none;
+    outline: 0;
+}

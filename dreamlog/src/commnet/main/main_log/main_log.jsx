@@ -4,14 +4,9 @@ import styles from './main_log.module.css';
 
 const MainLog = () => {
     return (
-        <div>
-            <button className={styles.button}>
-                <h2 className={styles.title}>꿈 의 기록</h2>
-            </button>
-            <div className={styles.logContainer}>
+        <div className={styles.logContainer}>
                 <LogMaker />
-            </div>
-        </div>    
+        </div>
     );
 };
 
