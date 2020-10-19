@@ -1,6 +1,22 @@
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.logo {
+    font-size: 2rem;
+}
+
+.search {
+    font-size: 1.5rem;
+}
+
 .mainHeader {
     display: flex;
     justify-content: flex-start;
+    margin-bottom: 2rem;
 }
 
 .list {
