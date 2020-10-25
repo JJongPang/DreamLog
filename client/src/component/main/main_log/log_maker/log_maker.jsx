@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import LogList from '../log_list/log_list';
+import styles from './log_maker.module.css';
 
 const LogMaker = () => {
     const [logDatas, setLogDatas] = useState({
@@ -83,7 +84,7 @@ const LogMaker = () => {
         },
     });
     return (
-       <LogList logDatas={logDatas} />
+            <LogList logDatas={logDatas} />
     );
 };
 
