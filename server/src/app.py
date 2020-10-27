@@ -22,5 +22,19 @@ def post_editor_data():
     return jsonify(str(ObjectId(editor_data)))
 
 
+@app.route('/editor', methods=['GET'])
+def get_editor_data():
+    editor = []
+    for doc in editor_db.find():
+        editor.append({
+            '_id': str(ObjectId(doc['_id'])),
+            'title': doc['title'],
+            'body': doc['body'],
+            'tag': doc['tag'],
+            'date': doc["date"]
+        })
+    return jsonify(editor)
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
