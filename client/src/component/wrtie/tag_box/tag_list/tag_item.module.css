@@ -1,0 +1,10 @@
+.item {
+    margin-right: 0.5rem;
+    color: gray;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.item:hover {
+    opacity: 0.5;
+}

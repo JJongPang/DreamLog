@@ -14,10 +14,14 @@ editor_db = mongo.db.editor
 @app.route('/editor', methods=['POST'])
 def post_editor_data():
     editor_data = editor_db.insert({
+        'contentImage': request.json['contentImage'],
         'title': request.json['title'],
-        'body': request.json['body'],
-        'tag': request.json['tag'],
-        'date': request.json['date']
+        'content': request.json['content'],
+        'date': request.json['date'],
+        'comment': request.json['comment'],
+        'userImage': request.json['userImage'],
+        'userId': request.json['userId'],
+        'subscribe': request.json['subscribe'],
     })
     return jsonify(str(ObjectId(editor_data)))
 
@@ -28,10 +32,14 @@ def get_editor_data():
     for doc in editor_db.find():
         editor.append({
             '_id': str(ObjectId(doc['_id'])),
+            'contentImage': doc['contentImage'],
             'title': doc['title'],
-            'body': doc['body'],
-            'tag': doc['tag'],
-            'date': doc["date"]
+            'content': doc['content'],
+            'date': doc["date"],
+            'comment': doc["comment"],
+            'userImage': doc["userImage"],
+            "userId": doc["userId"],
+            "subscribe": doc["subscribe"],
         })
     return jsonify(editor)
 

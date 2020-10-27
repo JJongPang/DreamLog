@@ -1,11 +1,11 @@
 import React from 'react';
-import LogMaker from './log_maker/log_maker';
+import LogList from './log_list/log_list';
 import styles from './main_log.module.css';
 
 const MainLog = () => {
     return (
         <div className={styles.logContainer}>
-                <LogMaker />
+                <LogList />
         </div>
     );
 };

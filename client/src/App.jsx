@@ -1,14 +1,11 @@
 import React from 'react';
-import Footer from './component/footer/footer';
-import Main from './component/main/main';
-import WritePage from './pages/write_page';
+import QuillEditor from './component/wrtie/quill_editor/quill_editor';
+import Write from './component/wrtie/write';
 
 const App = () => {
   return (
     <div>
-      {/* <Main />
-      <Footer /> */}
-      <WritePage />
+      <Write />
     </div>
   );
 };

@@ -1,0 +1,46 @@
+.tagbox_block {
+    width: 100%;
+    border-top: 1px solid gray;
+    padding-top: 2rem;
+}
+
+.tag {
+    color: gray;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.tag_form {
+    display: flex;
+    width: 256px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.input,
+.button {
+    outline: none;
+    border: none;
+    font-size: 1rem;
+}
+
+.input {
+    padding: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.button {
+    cursor: pointer;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border: none;
+    background: gray;
+    color: white;
+    font-weight: bold;
+}
+
+.button:hover {
+    opacity: 0.5;
+}
