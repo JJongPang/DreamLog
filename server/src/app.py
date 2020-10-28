@@ -11,22 +11,17 @@ CORS(app)
 editor_db = mongo.db.editor
 
 
-@app.route('/editor', methods=['POST'])
+@app.route('/wrtie', methods=['POST'])
 def post_editor_data():
     editor_data = editor_db.insert({
-        'contentImage': request.json['contentImage'],
         'title': request.json['title'],
-        'content': request.json['content'],
-        'date': request.json['date'],
-        'comment': request.json['comment'],
-        'userImage': request.json['userImage'],
-        'userId': request.json['userId'],
-        'subscribe': request.json['subscribe'],
+        'body': request.json['body'],
+        'tags': request.json['tags'],
     })
     return jsonify(str(ObjectId(editor_data)))
 
 
-@app.route('/editor', methods=['GET'])
+@app.route('/wrtie', methods=['GET'])
 def get_editor_data():
     editor = []
     for doc in editor_db.find():

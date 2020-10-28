@@ -3,7 +3,7 @@ import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styles from './quill_editor.module.css';
 
-const QuillEditor = () => {
+const QuillEditor = ({title, body, onChangeField}) => {
     const quillElement = useRef(null); // Quill을 적용할 DivElement를 설정
     const quillInstance = useRef(null); // Quill 인스턴스를 설정
   
@@ -23,11 +23,22 @@ const QuillEditor = () => {
           ],
         },
       });
-    }, []);
+      //quill에 text-change 이벤트 핸들러 등록
+      const quill = quillInstance.current;
+      quill.on('text-change', (delta, oldDelta, source) => {
+        if(source === 'user') {
+          onChangeField({key: 'body', value: quill.root.innerHTML})
+        }
+      });
+    }, [onChangeField]);
+
+    const onChangeTitle = e => {
+      onChangeField({key: 'title', value: e.target.value});
+    }
   
     return (
         <div className={styles.editor_block}>
-            <input className={styles.title} type="text" placeholder="제목을 입력하세요" />
+            <input className={styles.title} type="text" placeholder="제목을 입력하세요" onChange={onChangeTitle} />
             <div className={`${styles.ql_editor} ${styles.ql_blank}`}>
               <div ref={quillElement} />
             </div>
