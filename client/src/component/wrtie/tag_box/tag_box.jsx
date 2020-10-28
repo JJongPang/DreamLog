@@ -39,7 +39,7 @@ const TagBox = () => {
         <div className={styles.tagbox_block}>
             <h4 className={styles.tag}>태그</h4>
             <form className={styles.tag_form} onSubmit={onSubmit}>
-                <input className={styles.input} type="text" value={input} onChange={onChange} placeholder="태그를 입력하세요" />
+                <input className={styles.input} type="text" value={input} onChange={onChange} placeholder="#태그를 입력하세요" />
                 <button className={styles.button} type="submit">추가</button>
             </form>
             <TagList tags={localTags} onRemove={onRemove} />

@@ -12,6 +12,8 @@ const LogList = () => {
         setLogDatas(data);
     }
 
+    
+
     useEffect(() => {
         getEditorData();
     }, []);
