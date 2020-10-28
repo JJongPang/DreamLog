@@ -8,10 +8,10 @@ mongo = PyMongo(app)
 
 CORS(app)
 
-editor_db = mongo.db.editor
+editor_db = mongo.db.write
 
 
-@app.route('/wrtie', methods=['POST'])
+@app.route('/write', methods=['POST'])
 def post_editor_data():
     editor_data = editor_db.insert({
         'title': request.json['title'],
@@ -21,22 +21,15 @@ def post_editor_data():
     return jsonify(str(ObjectId(editor_data)))
 
 
-@app.route('/wrtie', methods=['GET'])
-def get_editor_data():
-    editor = []
-    for doc in editor_db.find():
-        editor.append({
-            '_id': str(ObjectId(doc['_id'])),
-            'contentImage': doc['contentImage'],
-            'title': doc['title'],
-            'content': doc['content'],
-            'date': doc["date"],
-            'comment': doc["comment"],
-            'userImage': doc["userImage"],
-            "userId": doc["userId"],
-            "subscribe": doc["subscribe"],
-        })
-    return jsonify(editor)
+@app.route('/write/<id>', methods=['GET'])
+def get_editor_data(id):
+    editor_data = editor_db.find_one({'_id': ObjectId(id)})
+    return jsonify({
+        '_id': str(ObjectId(editor_data['_id'])),
+        'title': editor_data['title'],
+        'body': editor_data['body'],
+        'tags': editor_data['tags']
+    })
 
 
 if __name__ == '__main__':

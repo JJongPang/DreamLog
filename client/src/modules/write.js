@@ -12,6 +12,7 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
     key,
     value,
 }));
+
 export const writePost = createAction(WRITE_POST, ({ title, body, tags }) => ({
     title,
     body,
@@ -20,6 +21,7 @@ export const writePost = createAction(WRITE_POST, ({ title, body, tags }) => ({
 
 // saga 생성
 const writePostSaga = createRequestSaga(WRITE_POST, postsAPI.writePost);
+
 export function* writeSaga() {
     yield takeLatest(WRITE_POST, writePostSaga);
 }

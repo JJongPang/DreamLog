@@ -1,0 +1,51 @@
+.block {
+    margin-top: 4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 1024px;
+    margin: 0 auto;
+}
+
+.header {
+    border-bottom: 1px solid gray;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-size: 3rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.sub_info {
+    margin-top: 1rem;
+    color: gray;
+}
+
+.sub_title::after {
+    content: '*';
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    color: gray;
+}
+
+.tag_list {
+    margin-top: 0.5rem;
+}
+
+.tag {
+    display: inline-block;
+    color: gray;
+    text-decoration: none;
+    margin-right: 0.5rem;
+}
+
+.tag:hover {
+    opacity: 0.5;
+}
+
+.content {
+    font-size: 1.3125rem;
+    color: gray;
+}

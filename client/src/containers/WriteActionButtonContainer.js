@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TagButton from '../component/wrtie/tag_box/tag_button/tag_button';
 import { writePost } from '../modules/write';
+import { useHistory, withRouter } from 'react-router-dom';
 
-const WriteActionButtonContainer = ({ history }) => {
+const WriteActionButtonContainer = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { title, body, tags, post, postError } = useSelector(({ write }) => ({
         title: write.title,
@@ -13,7 +15,7 @@ const WriteActionButtonContainer = ({ history }) => {
         postError: write.postError,
     }));
 
-    //포스트 등록
+    // 포스트 등록
     const onPublish = () => {
         dispatch(
             writePost({
@@ -26,8 +28,20 @@ const WriteActionButtonContainer = ({ history }) => {
 
     //취소
     const onCancel = () => {
-        console.log('취소');
+        history.push('/postviewer');
     };
+
+    useEffect(() => {
+        if (post) {
+            console.log('등록 성공');
+            //const { _id } = post;
+            history.push(`/postviewer`);
+        }
+
+        if (postError) {
+            console.log(postError);
+        }
+    }, [history, post, postError]);
 
     return <TagButton onPublish={onPublish} onCancel={onCancel} />;
 };
