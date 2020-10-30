@@ -26,9 +26,7 @@ const QuillEditor = ({title, body, onChangeField}) => {
       //quill에 text-change 이벤트 핸들러 등록
       const quill = quillInstance.current;
       quill.on('text-change', (delta, oldDelta, source) => {
-        if(source === 'user') {
           onChangeField({key: 'body', value: quill.root.innerHTML})
-        }
       });
     }, [onChangeField]);
 
@@ -38,7 +36,7 @@ const QuillEditor = ({title, body, onChangeField}) => {
   
     return (
         <div className={styles.editor_block}>
-            <input className={styles.title} type="text" placeholder="제목을 입력하세요" onChange={onChangeTitle} />
+            <input className={styles.title} type="text" placeholder="제목을 입력하세요" onChange={onChangeTitle} value={title} />
             <div className={`${styles.ql_editor} ${styles.ql_blank}`}>
               <div ref={quillElement} />
             </div>

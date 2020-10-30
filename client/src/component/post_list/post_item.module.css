@@ -1,0 +1,50 @@
+.block {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid gray;
+}
+
+.block:nth-child(1) {
+    border: none;
+    padding-top: 0;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.title:hover {
+    opacity: 0.5;
+}
+
+.sub_info {
+    color: gray;
+}
+
+.user::after {
+    content: '*';
+    color: gray;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+.tags {
+    margin-top: 0.5rem;
+}
+
+.tag {
+    display: inline-block;
+    color: gray;
+    text-decoration: none;
+    margin-right: 0.5rem;
+}
+
+.tag:hover {
+    opacity: 0.5;
+}
+
+.content {
+    margin-top: 2rem;
+}

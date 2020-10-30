@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { readPost, unloadPost } from '../modules/post';
-import PostViewer from '../component/post_viewer/post_viewer';
+import { readPost, unloadPost } from '../../modules/post';
+import PostViewer from '../../component/post_viewer/post_viewer';
 
-const PostViewerContainer = ({ match }) => {
-    // const { postId } = match.params;
+const PostViewerContainer = ({ post }) => {
     const dispatch = useDispatch();
     const { post, error, loading } = useSelector(({ post, loading }) => ({
         post: post.post,
@@ -13,12 +12,11 @@ const PostViewerContainer = ({ match }) => {
     }));
 
     useEffect(() => {
-        dispatch(readPost(postId));
-
+        dispatch(readPost());
         return () => {
             dispatch(unloadPost());
         };
-    }, [dispatch, postId]);
+    }, [dispatch]);
 
     return <PostViewer post={post} loading={loading} error={error} />;
 };

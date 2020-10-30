@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import QuillEditor from '../component/wrtie/quill_editor/quill_editor';
-import { changeField, initialize } from '../modules/write';
+import { changeField, initialize } from '../../modules/write';
+import QuillEditor from '../../component/wrtie/quill_editor/quill_editor';
 
 const EditorContainer = () => {
     const dispatch = useDispatch();

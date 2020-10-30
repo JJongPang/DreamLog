@@ -1,8 +1,7 @@
 import React from 'react';
-import EditorContainer from '../../containers/EditorContainer';
-import TextBoxContainer from '../../containers/TextBoxContainer';
-import WriteActionButtonContainer from '../../containers/WriteActionButtonContainer';
-import TagButton from './tag_box/tag_button/tag_button';
+import EditorContainer from '../../containers/write/EditorContainer';
+import TextBoxContainer from '../../containers/write/TegBoxContainer';
+import WriteActionButtonContainer from '../../containers/write/WriteActionButtonContainer';
 import styles from './write.module.css';
 
 const Write = () => {
