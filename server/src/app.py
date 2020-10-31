@@ -61,7 +61,8 @@ def post_editor_data():
 
 @ app.route('/write/<id>', methods=['GET'])
 def get_editor_data(id):
-    editor_data = editor_db.find_one({'_id': ObjectId(id)})
+    id = {'_id': ObjectId(id)}
+    editor_data = editor_db.find_one(id)
     return jsonify({
         '_id': str(ObjectId(editor_data['_id'])),
         'title': editor_data['title'],

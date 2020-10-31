@@ -34,7 +34,11 @@ const WriteActionButtonsContainer = ({ history }) => {
     useEffect(() => {
         if (post) {
             const { _id } = post;
-            history.push(`/postviewer/${_id}`);
+            history.push({
+                pathname: `/write/${_id}`,
+                state: { _id: post._id },
+            });
+            console.log(post._id);
         }
         if (postError) {
             console.log(postError);
