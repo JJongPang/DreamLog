@@ -14,38 +14,6 @@ editor_db = mongo.db.write
 user_db = mongo.db.user
 
 
-# @ app.route('/write', methods=['POST'])
-# def post_editor_data():
-#     editor_data = editor_db.insert({
-#         'title': request.json['title'],
-#         'body': request.json['body'],
-#         'tags': request.json['tags'],
-#         'publish_date': datetime.now()
-#     })
-#     return jsonify(str(ObjectId(editor_data)))
-
-# @ app.route('/write', methods=['POST'])
-# def post_editor_data():
-#     editor_data = ({
-#         'title': request.json['title'],
-#         'body': request.json['body'],
-#         'tags': request.json['tags'],
-#         'publish_date': datetime.now()
-#     })
-#     editor_db.insert(editor_data)
-#     return jsonify(str(editor_data))
-
-# @ app.route('/write', methods=['POST'])
-# def post_editor_data():
-#     editor_data = {
-#         'title': request.json['title'],
-#         'body': request.json['body'],
-#         'tags': request.json['tags'],
-#         'publish_date': datetime.now()
-#     }
-#     editor_db.insert(editor_data)
-#     return jsonify(editor_data)
-
 @ app.route('/write', methods=['POST'])
 def post_editor_data():
     editor_data = {
@@ -70,6 +38,20 @@ def get_editor_data(id):
         'tags': editor_data['tags'],
         'publish_date': editor_data['publish_date']
     })
+
+
+@app.route('/list', methods=['GET'])
+def get_editor_list():
+    list = []
+    for li in editor_db.find():
+        list.append({
+            '_id': str(ObjectId(li['_id'])),
+            'title': li['title'],
+            'body': li['body'],
+            'tags': li['tags'],
+            'publish_date': li['publish_date'],
+        })
+    return jsonify(list)
 
 
 if __name__ == '__main__':

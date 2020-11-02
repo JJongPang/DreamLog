@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import ListPage from './component/wrtie/list_page';
 import PostPage from './component/wrtie/post_page';
 import Write from './component/wrtie/write';
 import PostViewerContainer from './containers/posts/PostViewerContainer';
@@ -8,6 +9,9 @@ const App = () => {
   return (
     <div>
       <Switch>
+      <Route exact path="/list">
+          <ListPage />
+        </Route>
         <Route exact path="/write">
           <Write />
         </Route>
