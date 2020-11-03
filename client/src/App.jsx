@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import PostList from './component/post_list/post_list';
 import ListPage from './component/wrtie/list_page';
 import PostPage from './component/wrtie/post_page';
 import Write from './component/wrtie/write';
@@ -9,7 +10,7 @@ const App = () => {
   return (
     <div>
       <Switch>
-      <Route exact path="/list">
+        <Route exact path="/list">
           <ListPage />
         </Route>
         <Route exact path="/write">

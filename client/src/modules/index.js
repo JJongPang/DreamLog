@@ -3,13 +3,13 @@ import write, { writeSaga } from './write';
 import loading from './loading';
 import { all } from 'redux-saga/effects';
 import post, { postSaga } from './post';
-import list, { postsSaga } from './list';
+import posts, { postsSaga } from './posts';
 
 const rootReducer = combineReducers({
     write,
     loading,
     post,
-    list,
+    posts,
 });
 
 export function* rootSaga() {

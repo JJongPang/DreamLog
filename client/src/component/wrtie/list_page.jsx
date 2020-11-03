@@ -1,10 +1,10 @@
 import React from 'react';
-import ListContainer from '../../containers/list/ListContainer';
+import PostListConatiner from '../../containers/list/PostListContainer';
 
 const ListPage = () => {
     return (
         <div>
-            <ListContainer />
+            <PostListConatiner />
         </div>
     );
 };

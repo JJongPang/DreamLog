@@ -2,16 +2,32 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
+import jwt
+import bcrypt
+
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb://localhost/dreamlog'
-app.config['JWT_SECRET_KEY'] = 'super-secrete'
 
 mongo = PyMongo(app)
 CORS(app)
 
 editor_db = mongo.db.write
 user_db = mongo.db.user
+
+
+@app.route('/register', methods=['POST'])
+def sign_up():
+    password = request.json['password']
+    encode_password = password.encode('utf-8')
+    user_data = {
+        'userId': request.json['userId'],
+        'hashedPassword': bcrypt.hashpw(encode_password, bcrypt.gensalt()),
+    }
+    user_db.insert(user_data)
+    user_data['_id'] = str(user_data['_id'])
+    del user_data['hashedPassword']
+    return jsonify(user_data)
 
 
 @ app.route('/write', methods=['POST'])

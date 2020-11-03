@@ -4,7 +4,9 @@ export const writePost = ({ title, body, tags }) => axios.post(`http://localhost
 
 export const readPost = (id) => axios.get(`http://localhost:5000/write/${id}`);
 
-export const getEditorList = () => axios.get(`http://localhost:5000/list`);
+export const getEditorList = () => axios.get(`http://localhost:5000/list`, {});
+
+export const getUsers = (id) => axios.get(`https://jsonplaceholder.typicode.com/users`);
 
 // export const listPosts = ({ page, _id, tag }) => {
 //     const queryString = qs.stringify({
