@@ -21,7 +21,7 @@ def sign_up():
     password = request.json['password']
     encode_password = password.encode('utf-8')
     user_data = {
-        'userId': request.json['userId'],
+        'username': request.json['username'],
         'hashedPassword': bcrypt.hashpw(encode_password, bcrypt.gensalt()),
     }
     user_db.insert(user_data)
