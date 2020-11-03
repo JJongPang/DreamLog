@@ -9,16 +9,16 @@ const textMap = {
 }
 
 
-const AuthForm = ({type}) => {
+const AuthForm = ({type, form, onChange, onSubmit}) => {
     const text = textMap[type];
     return (
         <div className={styles.block}>
             <h3 className={styles.title}>{text}</h3>
-            <form action="">
-                <input className={styles.input_id} type="text" autoComplete="username" name="username" placeholder="아이디" />
-                <input className={styles.input_password} type="password" autoComplete="new-passowrd" name="password" placeholder="비밀번호" />
+            <form onSubmit={onSubmit}>
+                <input className={styles.input_id} type="text" autoComplete="username" name="username" placeholder="아이디" onChange={onChange} value={form.username}/>
+                <input className={styles.input_password} type="password" autoComplete="new-passowrd" name="password" placeholder="비밀번호" onChange={onChange} value={form.password} />
                 {type === 'register' && (
-                     <input className={styles.input_password} type="password" autoComplete="new-passowrd" name="passwordConfirm" placeholder="비밀번호 확인" />
+                     <input className={styles.input_password} type="password" autoComplete="new-passowrd" name="passwordConfirm" placeholder="비밀번호 확인" onChange={onChange} value={form.passwordConfirm} />
                 )}
                 <Button className={styles.login_btn}>{text}</Button>
             </form>
