@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
-import jwt
 import bcrypt
 
 
@@ -18,10 +17,11 @@ user_db = mongo.db.user
 
 @app.route('/register', methods=['POST'])
 def sign_up():
+    username = request.json['username']
     password = request.json['password']
     encode_password = password.encode('utf-8')
     user_data = {
-        'username': request.json['username'],
+        'username': username,
         'hashedPassword': bcrypt.hashpw(encode_password, bcrypt.gensalt()),
     }
     user_db.insert(user_data)
@@ -56,7 +56,7 @@ def get_editor_data(id):
     })
 
 
-@app.route('/list', methods=['GET'])
+@ app.route('/list', methods=['GET'])
 def get_editor_list():
     list = []
     for li in editor_db.find():
