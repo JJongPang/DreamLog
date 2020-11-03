@@ -1,11 +1,13 @@
 import React from 'react';
+import AuthForm from '../component/auth/auth_form';
+import AuthTemplate from '../component/auth/auth_template';
 import styles from './register_page.module.css';
 
 const RegisterPage = () => {
     return (
-        <div>
-            회원가입
-        </div>
+        <AuthTemplate>
+            <AuthForm type="register" />
+        </AuthTemplate>
     );
 };
 
