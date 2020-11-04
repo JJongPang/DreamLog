@@ -1,13 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 import bcrypt
-
+import jwt
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb://localhost/dreamlog'
-
+app.secret_key = 'mysecret'
 mongo = PyMongo(app)
 CORS(app)
 
@@ -15,19 +16,45 @@ editor_db = mongo.db.write
 user_db = mongo.db.user
 
 
+class User:
+    def signup(self):
+        username = request.json['username']
+        password = request.json['password']
+        encode_password = password.encode('utf-8')
+        user_data = {
+            'username': username,
+            'password': bcrypt.hashpw(encode_password, bcrypt.gensalt()),
+        }
+
+        if user_db.find_one({"username": user_data['username']}):
+            return jsonify({"error": "username already in user_data"}), 500
+
+        user_db.insert(user_data)
+        user_data['_id'] = str(user_data['_id'])
+        del user_data['password']
+
+        return jsonify(user_data), 200
+
+    def login(self):
+        login_user = user_db.find_one({'username': request.json["username"]})
+
+        if login_user:
+            if bcrypt.hashpw(request.json['password'].encode('utf-8'), login_user['password']) == login_user['password']:
+                session['username'] = request.json['username']
+
+                return "login"
+
+        return 'Invalid username or password'
+
+
 @app.route('/register', methods=['POST'])
-def sign_up():
-    username = request.json['username']
-    password = request.json['password']
-    encode_password = password.encode('utf-8')
-    user_data = {
-        'username': username,
-        'hashedPassword': bcrypt.hashpw(encode_password, bcrypt.gensalt()),
-    }
-    user_db.insert(user_data)
-    user_data['_id'] = str(user_data['_id'])
-    del user_data['hashedPassword']
-    return jsonify(user_data)
+def signup():
+    return User().signup()
+
+
+@app.route('/login', methods=["POST"])
+def login():
+    return User().login()
 
 
 @ app.route('/write', methods=['POST'])
