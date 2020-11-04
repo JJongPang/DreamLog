@@ -40,11 +40,17 @@ class User:
 
         if login_user:
             if bcrypt.hashpw(request.json['password'].encode('utf-8'), login_user['password']) == login_user['password']:
-                session['username'] = request.json['username']
+                session["username"] = request.json["username"]
 
-                return "login"
+                token = jwt.encode({"username": request.json["username"]},
+                                   "secret", algorithm="HS256").decode("UTF-8")
+                return token, 200
 
-        return 'Invalid username or password'
+        return 'Invalid username or password', 404
+
+    def check(self):
+        if 'username' in session:
+            return 'You are logged in as ' + session['username']
 
 
 @app.route('/register', methods=['POST'])
@@ -55,6 +61,11 @@ def signup():
 @app.route('/login', methods=["POST"])
 def login():
     return User().login()
+
+
+@app.route('/check', methods=["GET"])
+def check():
+    return User().check()
 
 
 @ app.route('/write', methods=['POST'])
