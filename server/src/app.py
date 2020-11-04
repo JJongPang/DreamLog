@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, redirect, url_for
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
@@ -7,10 +7,10 @@ import bcrypt
 import jwt
 
 app = Flask(__name__)
+CORS(app)
 app.config['MONGO_URI'] = 'mongodb://localhost/dreamlog'
 app.secret_key = 'mysecret'
 mongo = PyMongo(app)
-CORS(app)
 
 editor_db = mongo.db.write
 user_db = mongo.db.user
@@ -33,7 +33,8 @@ class User:
         user_data['_id'] = str(user_data['_id'])
         del user_data['password']
 
-        return jsonify(user_data), 200
+        # return redirect(url_for('check'))
+        return 'register 완료'
 
     def login(self):
         login_user = user_db.find_one({'username': request.json["username"]})
