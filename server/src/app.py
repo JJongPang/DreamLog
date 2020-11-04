@@ -40,17 +40,40 @@ class User:
 
         if login_user:
             if bcrypt.hashpw(request.json['password'].encode('utf-8'), login_user['password']) == login_user['password']:
+                # token = jwt.encode({"username": request.json["username"]},
+                #                    "secret", algorithm="HS256").decode("UTF-8")
                 session["username"] = request.json["username"]
-
-                token = jwt.encode({"username": request.json["username"]},
-                                   "secret", algorithm="HS256").decode("UTF-8")
-                return token, 200
+                return 'login', 200
 
         return 'Invalid username or password', 404
+
+    def logout(self):
+        session.pop('username', None)
+        return 'logout', 200
 
     def check(self):
         if 'username' in session:
             return 'You are logged in as ' + session['username']
+
+
+class Write:
+    def write(self):
+        if 'username' not in session:
+            return 'login please', 401
+        else:
+            editor_data = {
+                'title': request.json['title'],
+                'body': request.json['body'],
+                'tags': request.json['tags'],
+                'publish_date': datetime.now(),
+                "user": {
+                    'username': session["username"]
+                }
+            }
+            editor_db.insert(editor_data)
+            editor_data['_id'] = str(editor_data['_id'])
+
+            return jsonify(editor_data)
 
 
 @app.route('/register', methods=['POST'])
@@ -63,6 +86,11 @@ def login():
     return User().login()
 
 
+@app.route('/logout', methods=["POST"])
+def logout():
+    return User().logout()
+
+
 @app.route('/check', methods=["GET"])
 def check():
     return User().check()
@@ -70,15 +98,7 @@ def check():
 
 @ app.route('/write', methods=['POST'])
 def post_editor_data():
-    editor_data = {
-        'title': request.json['title'],
-        'body': request.json['body'],
-        'tags': request.json['tags'],
-        'publish_date': datetime.now()
-    }
-    editor_db.insert(editor_data)
-    editor_data['_id'] = str(editor_data['_id'])
-    return jsonify(editor_data)
+    return Write().write()
 
 
 @ app.route('/write/<id>', methods=['GET'])
