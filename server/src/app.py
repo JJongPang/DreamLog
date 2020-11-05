@@ -42,15 +42,14 @@ class User:
         del user_data['password']
         # return redirect(url_for('check'))
         # return 'register 완료'
-        access_token = create_access_token(
-            identity=request.json["username"])
 
         # refresh_token = create_refresh_token(
         #     identity=request.json["username"])
+        # set_refresh_cookies(resp, refresh_token)
 
+        access_token = create_access_token(identity=request.json["username"])
         resp = jsonify(user_data)
         set_access_cookies(resp, access_token)
-        # set_refresh_cookies(resp, refresh_token)
 
         return resp, 200
 
@@ -61,15 +60,17 @@ class User:
                 # token = jwt.encode({"username": request.json["username"]},
                 #                    "secret", algorithm="HS256").decode("UTF-8")
                 # session["username"] = request.json["username"]
-                access_token = create_access_token(
-                    identity=request.json["username"])
 
                 # refresh_token = create_refresh_token(
                 #     identity=request.json["username"])
 
+                # set_refresh_cookies(resp, refresh_token)
+
+                access_token = create_access_token(
+                    identity=request.json["username"])
+
                 resp = jsonify({'login': True})
                 set_access_cookies(resp, access_token)
-                # set_refresh_cookies(resp, refresh_token)
 
                 return resp, 200
 
@@ -84,7 +85,7 @@ class User:
 
     def check(self):
         username = get_jwt_identity()
-        return jsonify({'username': '{}'.format(username)}), 200
+        return jsonify(username), 200
         # current_user = get_jwt_identity()
 
         # return jsonify(current_user), 200
