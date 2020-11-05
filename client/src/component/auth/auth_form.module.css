@@ -37,3 +37,10 @@
     margin-top: 2rem;
     text-align: right;
 }
+
+.eroor_message {
+    color: red;
+    text-align: center;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}

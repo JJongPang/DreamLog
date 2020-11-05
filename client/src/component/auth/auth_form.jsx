@@ -9,7 +9,7 @@ const textMap = {
 }
 
 
-const AuthForm = ({type, form, onChange, onSubmit}) => {
+const AuthForm = ({type, form, onChange, onSubmit, error}) => {
     const text = textMap[type];
     return (
         <div className={styles.block}>
@@ -20,6 +20,7 @@ const AuthForm = ({type, form, onChange, onSubmit}) => {
                 {type === 'register' && (
                      <input className={styles.input_password} type="password" autoComplete="new-passowrd" name="passwordConfirm" placeholder="비밀번호 확인" onChange={onChange} value={form.passwordConfirm} />
                 )}
+                {error && <div className={styles.eroor_message}>{error}</div>}
                 <Button className={styles.login_btn}>{text}</Button>
             </form>
             <div className={styles.footer}>

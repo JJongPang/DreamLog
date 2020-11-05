@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 export const register = ({ username, password }) => axios.post(`http://localhost:5000/token/register`, { username, password });
-export const check = () => axios.get(`http://localhost:5000/api/check`);
+
+export const login = ({ username, password }) => axios.post('http://localhost:5000/token/auth', { username, password });
+
+export const check = () =>
+    axios.get(`http://localhost:5000/api/check`, {
+        headers: { Authorization: 'JWT_TOKEN' },
+    });
 
 // export const check = axios({
 //     method: 'GET',

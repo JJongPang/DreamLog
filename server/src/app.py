@@ -4,7 +4,6 @@ from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 import bcrypt
-# import jwt
 
 
 app = Flask(__name__)
@@ -16,8 +15,7 @@ app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
 app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secrets'
-app.secret_key = 'secret'
-
+# app.secret_key = 'secret'
 CORS(app)
 jwt = JWTManager(app)
 mongo = PyMongo(app)
@@ -37,7 +35,7 @@ class User:
         }
 
         if user_db.find_one({"username": user_data['username']}):
-            return jsonify({"error": "username already in user_data"}), 500
+            return jsonify({"error": "username already in user_data"}), 409
 
         user_db.insert(user_data)
         user_data['_id'] = str(user_data['_id'])
@@ -47,12 +45,12 @@ class User:
         access_token = create_access_token(
             identity=request.json["username"])
 
-        refresh_token = create_refresh_token(
-            identity=request.json["username"])
+        # refresh_token = create_refresh_token(
+        #     identity=request.json["username"])
 
         resp = jsonify(user_data)
         set_access_cookies(resp, access_token)
-        set_refresh_cookies(resp, refresh_token)
+        # set_refresh_cookies(resp, refresh_token)
 
         return resp, 200
 
@@ -66,12 +64,12 @@ class User:
                 access_token = create_access_token(
                     identity=request.json["username"])
 
-                refresh_token = create_refresh_token(
-                    identity=request.json["username"])
+                # refresh_token = create_refresh_token(
+                #     identity=request.json["username"])
 
                 resp = jsonify({'login': True})
                 set_access_cookies(resp, access_token)
-                set_refresh_cookies(resp, refresh_token)
+                # set_refresh_cookies(resp, refresh_token)
 
                 return resp, 200
 
@@ -86,7 +84,7 @@ class User:
 
     def check(self):
         username = get_jwt_identity()
-        return jsonify({'hello': 'from {}'.format(username)}), 200
+        return jsonify({'username': '{}'.format(username)}), 200
         # current_user = get_jwt_identity()
 
         # return jsonify(current_user), 200
