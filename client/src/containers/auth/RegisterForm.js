@@ -11,7 +11,7 @@ const RegisterForm = ({ history }) => {
         form: auth.register,
         auth: auth.auth,
         authError: auth.authError,
-        user: user,
+        user: user.user,
     }));
 
     const onChange = (e) => {

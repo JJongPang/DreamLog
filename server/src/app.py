@@ -1,15 +1,25 @@
-from flask import Flask, request, jsonify, session, redirect, url_for
+from flask import Flask, request, jsonify, session, redirect, url_for, make_response
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 import bcrypt
-import jwt
+# import jwt
+
 
 app = Flask(__name__)
-CORS(app)
+
 app.config['MONGO_URI'] = 'mongodb://localhost/dreamlog'
-app.secret_key = 'mysecret'
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_SECRET_KEY'] = 'super-secret'
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
+app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+app.config['JWT_SECRET_KEY'] = 'super-secrets'
+app.secret_key = 'secret'
+
+CORS(app)
+jwt = JWTManager(app)
 mongo = PyMongo(app)
 
 editor_db = mongo.db.write
@@ -32,29 +42,60 @@ class User:
         user_db.insert(user_data)
         user_data['_id'] = str(user_data['_id'])
         del user_data['password']
-
         # return redirect(url_for('check'))
-        return 'register 완료'
+        # return 'register 완료'
+        access_token = create_access_token(
+            identity=request.json["username"])
+
+        refresh_token = create_refresh_token(
+            identity=request.json["username"])
+
+        resp = jsonify(user_data)
+        set_access_cookies(resp, access_token)
+        set_refresh_cookies(resp, refresh_token)
+
+        return resp, 200
 
     def login(self):
         login_user = user_db.find_one({'username': request.json["username"]})
-
         if login_user:
             if bcrypt.hashpw(request.json['password'].encode('utf-8'), login_user['password']) == login_user['password']:
                 # token = jwt.encode({"username": request.json["username"]},
                 #                    "secret", algorithm="HS256").decode("UTF-8")
-                session["username"] = request.json["username"]
-                return 'login', 200
+                # session["username"] = request.json["username"]
+                access_token = create_access_token(
+                    identity=request.json["username"])
+
+                refresh_token = create_refresh_token(
+                    identity=request.json["username"])
+
+                resp = jsonify({'login': True})
+                set_access_cookies(resp, access_token)
+                set_refresh_cookies(resp, refresh_token)
+
+                return resp, 200
 
         return 'Invalid username or password', 404
 
     def logout(self):
-        session.pop('username', None)
-        return 'logout', 200
+        resp = jsonify({'logout': True})
+        unset_jwt_cookies(resp)
+        return resp, 200
+        # session.pop('username', None)
+        # return 'logout', 200
 
     def check(self):
-        if 'username' in session:
-            return 'You are logged in as ' + session['username']
+        username = get_jwt_identity()
+        return jsonify({'hello': 'from {}'.format(username)}), 200
+        # current_user = get_jwt_identity()
+
+        # return jsonify(current_user), 200
+        # if 'username' in session:
+        #     return 'You are logged in as ' + session['username']
+        # else:
+        #     return 'login check fail'
+
+        # return session['username']
 
 
 class Write:
@@ -77,22 +118,23 @@ class Write:
             return jsonify(editor_data)
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/token/register', methods=['POST'])
 def signup():
     return User().signup()
 
 
-@app.route('/login', methods=["POST"])
+@app.route('/token/auth', methods=["POST"])
 def login():
     return User().login()
 
 
-@app.route('/logout', methods=["POST"])
+@app.route('/token/remove', methods=["POST"])
 def logout():
     return User().logout()
 
 
-@app.route('/check', methods=["GET"])
+@app.route('/api/check', methods=["GET"])
+@jwt_required
 def check():
     return User().check()
 
