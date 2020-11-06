@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from '../button/button';
+import Button from '../common/button/button';
 import styles from './auth_form.module.css';
 
 const textMap = {

@@ -5,8 +5,6 @@ import PostList from '../../component/post_list/post_list';
 import { listPosts } from '../../modules/posts';
 
 const PostListConatiner = ({ location, match }) => {
-    console.log('location', location);
-    console.log('match', match);
     const dispatch = useDispatch();
     const { posts, error, loading } = useSelector(({ posts, loading }) => ({
         posts: posts.posts,
