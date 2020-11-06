@@ -61,20 +61,29 @@ class User:
                 #                    "secret", algorithm="HS256").decode("UTF-8")
                 # session["username"] = request.json["username"]
 
-                # refresh_token = create_refresh_token(
-                #     identity=request.json["username"])
-
                 # set_refresh_cookies(resp, refresh_token)
 
                 access_token = create_access_token(
                     identity=request.json["username"])
 
+                refresh_token = create_refresh_token(
+                    identity=request.json["username"])
+
                 resp = jsonify({'login': True})
                 set_access_cookies(resp, access_token)
+                set_access_cookies(resp, refresh_token)
 
                 return resp, 200
 
         return 'Invalid username or password', 404
+
+    # def refresh(self):
+    #     current_user = get_jwt_identity()
+    #     access_token = create_access_token(identity=current_user)
+
+    #     resp = jsonify({'refresh': True})
+    #     set_access_cookies(resp, access_token)
+    #     return resp, 200
 
     def logout(self):
         resp = jsonify({'logout': True})
@@ -125,6 +134,12 @@ def signup():
 @app.route('/token/auth', methods=["POST"])
 def login():
     return User().login()
+
+
+# @app.route('/token/refresh', methods=["POST"])
+# @jwt_refresh_token_required
+# def refresh():
+#     return User().refresh()
 
 
 @app.route('/token/remove', methods=["POST"])

@@ -4,7 +4,7 @@ export const register = ({ username, password }) => axios.post(`http://localhost
 
 export const login = ({ username, password }) => axios.post('http://localhost:5000/token/auth', { username, password });
 
-export const check = () => axios.get(`http://localhost:5000/api/check`);
+export const check = () => axios.get(`http://localhost:5000/api/check`, { headers: { Authorization: `X-Requested-With` } });
 
 // export const check = axios({
 //     method: 'GET',
