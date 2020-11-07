@@ -2,6 +2,17 @@ import React from 'react';
 import styles from './post_viewer.module.css';
 
 const PostViewer = ({post, error, loading}) => {
+    if(error) {
+        if(error.response && error.response.status === 404) {
+            return <div className={styles.block}>존재하지 않는 포스트입니다.</div>
+        }
+        return <div className={styles.block}>오류 발생!</div>
+    }
+
+    if(loading || !post) {
+        return null;
+    }
+    
     const {title, body, publish_date, tags} = post;
     return (
         <div className={styles.block}>

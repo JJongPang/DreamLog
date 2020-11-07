@@ -2,7 +2,7 @@ import React from 'react';
 import TagItem from './tag_item';
 import styles from './tag_list.module.css';
 
-const TagList = ({ tags, onRemove }) => {
+const TagList = React.memo(({ tags, onRemove }) => {
     return (
         <div className={styles.list_block}>
             {tags.map(tag => (
@@ -10,6 +10,6 @@ const TagList = ({ tags, onRemove }) => {
             ))}
         </div>
     );
-};
+});
 
 export default TagList;

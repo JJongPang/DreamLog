@@ -23,7 +23,7 @@ const PostViewerContainer = (props) => {
         [dispatch],
         id
     );
-    return <>{post !== null ? <PostViewer post={post} loading={loading} error={error} /> : <h1>로딩중...</h1>}</>;
+    return <PostViewer post={post} loading={loading} error={error} />;
 };
 
 export default withRouter(PostViewerContainer);

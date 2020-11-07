@@ -22,7 +22,7 @@ const App = () => {
         <Route exact path="/write">
           <Write />
         </Route>
-        <Route exact path="/write/:id">
+        <Route exact path="/@:username/:id">
           <PostPage />
         </Route>
       </Switch>

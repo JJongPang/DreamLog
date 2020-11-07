@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PostItem from './post_item';
 import styles from './post_list.module.css';
 const PostList = ({posts, loading, error}) => {
@@ -6,7 +7,9 @@ const PostList = ({posts, loading, error}) => {
     return (
         <div className={styles.block}>
             <div className={styles.write_button}> 
-                <button className={styles.publish}>새 글 작성</button>
+                <Link to='/write'>
+                    <button className={styles.publish}>새 글 작성</button>
+                </Link>
             </div>
             <div>
                 {posts.map(post => (

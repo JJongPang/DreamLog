@@ -18,7 +18,7 @@ const QuillEditor = ({title, body, onChangeField}) => {
             [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
             [{ 'align': [] }],
             ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
+            ['blockquote', 'code-block', 'link', 'image'],
             [{ 'list': 'ordered'}, { 'list': 'bullet' }],
           ],
         },
