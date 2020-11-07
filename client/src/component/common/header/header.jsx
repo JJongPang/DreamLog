@@ -3,7 +3,7 @@ import styles from './header.module.css';
 import Button from '../button/button';
 import { Link } from 'react-router-dom';
 
-const Header = ({user}) => {
+const Header = ({user, onLogout}) => {
     return (
         <>
             <div className={styles.block}>
@@ -11,8 +11,8 @@ const Header = ({user}) => {
                     <Link to='/' className={styles.logo}>DreamLog </Link>
                     {user ? (
                         <div className={styles.right}>
-                            <div className={styles.user_info}>{user.username}</div>
-                            <Button className={styles.button}>로그아웃</Button>
+                            <div className={styles.user_info}>{user}</div>
+                            <Button className={styles.button} onClick={onLogout}>로그아웃</Button>
                         </div>   
                     ) : (
                         <div className={styles.right}>

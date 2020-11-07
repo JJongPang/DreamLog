@@ -16,7 +16,7 @@ app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secrets'
 # app.secret_key = 'secret'
-CORS(app)
+CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 mongo = PyMongo(app)
 
@@ -40,16 +40,12 @@ class User:
         user_db.insert(user_data)
         user_data['_id'] = str(user_data['_id'])
         del user_data['password']
-        # return redirect(url_for('check'))
-        # return 'register 완료'
-
-        # refresh_token = create_refresh_token(
-        #     identity=request.json["username"])
-        # set_refresh_cookies(resp, refresh_token)
 
         access_token = create_access_token(identity=request.json["username"])
+        refresh_token = create_refresh_token(identity=request.json["username"])
         resp = jsonify(user_data)
         set_access_cookies(resp, access_token)
+        set_refresh_cookies(resp, refresh_token)
 
         return resp, 200
 
@@ -57,59 +53,33 @@ class User:
         login_user = user_db.find_one({'username': request.json["username"]})
         if login_user:
             if bcrypt.hashpw(request.json['password'].encode('utf-8'), login_user['password']) == login_user['password']:
-                # token = jwt.encode({"username": request.json["username"]},
-                #                    "secret", algorithm="HS256").decode("UTF-8")
-                # session["username"] = request.json["username"]
-
-                # set_refresh_cookies(resp, refresh_token)
-
                 access_token = create_access_token(
                     identity=request.json["username"])
-
                 refresh_token = create_refresh_token(
                     identity=request.json["username"])
-
                 resp = jsonify({'login': True})
                 set_access_cookies(resp, access_token)
-                set_access_cookies(resp, refresh_token)
+                set_refresh_cookies(resp, refresh_token)
 
                 return resp, 200
 
         return 'Invalid username or password', 404
 
-    # def refresh(self):
-    #     current_user = get_jwt_identity()
-    #     access_token = create_access_token(identity=current_user)
-
-    #     resp = jsonify({'refresh': True})
-    #     set_access_cookies(resp, access_token)
-    #     return resp, 200
-
     def logout(self):
         resp = jsonify({'logout': True})
         unset_jwt_cookies(resp)
         return resp, 200
-        # session.pop('username', None)
-        # return 'logout', 200
 
     def check(self):
         username = get_jwt_identity()
         return jsonify(username), 200
-        # current_user = get_jwt_identity()
-
-        # return jsonify(current_user), 200
-        # if 'username' in session:
-        #     return 'You are logged in as ' + session['username']
-        # else:
-        #     return 'login check fail'
-
-        # return session['username']
 
 
 class Write:
     def write(self):
-        if 'username' not in session:
-            return 'login please', 401
+        username = get_jwt_identity()
+        if username is None:
+            return 'logain please', 401
         else:
             editor_data = {
                 'title': request.json['title'],
@@ -117,7 +87,7 @@ class Write:
                 'tags': request.json['tags'],
                 'publish_date': datetime.now(),
                 "user": {
-                    'username': session["username"]
+                    'username': username,
                 }
             }
             editor_db.insert(editor_data)
@@ -136,12 +106,6 @@ def login():
     return User().login()
 
 
-# @app.route('/token/refresh', methods=["POST"])
-# @jwt_refresh_token_required
-# def refresh():
-#     return User().refresh()
-
-
 @app.route('/token/remove', methods=["POST"])
 def logout():
     return User().logout()
@@ -153,12 +117,14 @@ def check():
     return User().check()
 
 
-@ app.route('/write', methods=['POST'])
+@ app.route('/api/write', methods=['POST'])
+@jwt_required
 def post_editor_data():
     return Write().write()
 
 
-@ app.route('/write/<id>', methods=['GET'])
+@ app.route('/api/write/<id>', methods=['GET'])
+@jwt_required
 def get_editor_data(id):
     id = {'_id': ObjectId(id)}
     editor_data = editor_db.find_one(id)

@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-export const register = ({ username, password }) => axios.post(`http://localhost:5000/token/register`, { username, password });
+export const register = ({ username, password }) =>
+    axios.post(`http://localhost:5000/token/register`, { username, password }, { withCredentials: true });
 
-export const login = ({ username, password }) => axios.post('http://localhost:5000/token/auth', { username, password });
+export const login = ({ username, password }) =>
+    axios.post('http://localhost:5000/token/auth', { username, password }, { withCredentials: true });
 
-export const check = () => axios.get(`http://localhost:5000/api/check`, { headers: { Authorization: `X-Requested-With` } });
+export const check = () => axios.get(`http://localhost:5000/api/check`, { withCredentials: true });
+
+export const logout = () => axios.post('http://localhost:5000/token/remove', { withCredentials: true });
 
 // export const check = axios({
 //     method: 'GET',
