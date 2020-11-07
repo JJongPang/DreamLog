@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify, session, redirect, url_for, make_response
+from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
+from flask_json_schema import JsonSchema
 import bcrypt
-
+import math
 
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ app.config['JWT_SECRET_KEY'] = 'super-secrets'
 CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 mongo = PyMongo(app)
+schema = JsonSchema(app)
 
 editor_db = mongo.db.write
 user_db = mongo.db.user
@@ -137,10 +139,29 @@ def get_editor_data(id):
     })
 
 
-@ app.route('/list', methods=['GET'])
+@app.route('/api/delete/<id>', methods=['DELETE'])
+@jwt_required
+def delete_editor(id):
+    editor_db.delete_one({'_id': ObjectId(id)})
+    return jsonify({'msg': 'User delete'})
+
+
+@app.route('/api/update/<id>', methods=['PUT'])
+def updateUser(id):
+    editor_db.update_one({'_id': ObjectId(id)}, {'$set': {
+        'body': request.json['email'],
+        'tags': request.json['password'],
+        'publish_date': datetime.now()
+    }})
+    return jsonify({'msg': 'User update'})
+
+
+@ app.route('/api/list', methods=['GET'])
 def get_editor_list():
     list = []
-    for li in editor_db.find():
+    page = request.args.get("page", 1, type=int)
+    limit = 10
+    for li in editor_db.find().skip((page-1) * limit).limit(limit):
         list.append({
             '_id': str(ObjectId(li['_id'])),
             'title': li['title'],
@@ -148,7 +169,17 @@ def get_editor_list():
             'tags': li['tags'],
             'publish_date': li['publish_date'],
         })
-    return jsonify(list)
+    list.reverse()
+
+    top_count = editor_db.find().count()
+    last_page_num = math.ceil(top_count / limit)
+
+    headers = {'Last-page': last_page_num}
+    data = jsonify(list)
+    resp = make_response(data)
+    resp.headers = headers
+
+    return resp
 
 
 if __name__ == '__main__':

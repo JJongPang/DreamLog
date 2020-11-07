@@ -5,4 +5,4 @@ export const writePost = ({ title, body, tags }) =>
 
 export const readPost = (id) => axios.get(`http://localhost:5000/api/write/${id}`, { withCredentials: true });
 
-export const getEditorList = () => axios.get(`http://localhost:5000/list`, { withCredentials: true });
+export const getEditorList = () => axios.get(`http://localhost:5000/api/list`, { withCredentials: true });
