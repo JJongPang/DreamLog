@@ -1,8 +1,18 @@
-.black {
-    margin-top: 1rem;
-    color: gray;
+.block {
+    margin-bottom: 1rem;
 }
 
-.span:nth-child::after {
-    content: '====';
+.username {
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
+    color: #00000080;
+    transition: all 0.25s ease-in;
+}
+
+.username:hover {
+    color: #000000;
+}
+
+.date {
+    color: #00000080;
 }

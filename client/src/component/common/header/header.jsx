@@ -8,10 +8,10 @@ const Header = ({user, onLogout}) => {
         <>
             <div className={styles.block}>
                 <div className={styles.wrapper}>
-                    <Link to='/' className={styles.logo}>DreamLog </Link>
+                    <Link to='/' className={styles.logo}>DreamLog</Link>
                     {user ? (
                         <div className={styles.right}>
-                            <div className={styles.user_info}>{user}</div>
+                            <div className={styles.user_info}>{user}님 꿈 을 기록하세요!</div>
                             <Button className={styles.button} onClick={onLogout}>로그아웃</Button>
                         </div>   
                     ) : (

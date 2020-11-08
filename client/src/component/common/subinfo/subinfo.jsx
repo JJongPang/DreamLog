@@ -5,12 +5,12 @@ import styles from './subinfo.module.css';
 const SubInfo = ({username, publishDate}) => {
     return (
         <div className={styles.block}>
-            <span>
-                <b>
-                    <Link to={`/@${username}`}>{username}</Link>
-                </b>
-            </span>
-            <span>{new Date(publishDate).toLocaleDateString()}</span>
+            <Link to={`/@${username}`}>
+                <span className={styles.username}> 
+                    {username}
+                </span>
+             </Link>
+            <span className={styles.date}>{new Date(publishDate).toLocaleDateString()}</span>
         </div>
     );
 };

@@ -14,7 +14,7 @@ const PostList = ({posts, loading, error, showWriteButton}) => {
             <div className={styles.write_button}> 
                 {showWriteButton && (
                     <Link to='/write'>
-                        <Button>새 글 작성하기</Button>
+                        <Button className={styles.write}>새 글 작성하기</Button>
                     </Link>
                 )}
             </div>
@@ -23,7 +23,7 @@ const PostList = ({posts, loading, error, showWriteButton}) => {
                     {posts.map(post => (
                     <PostItem post={post} key={post._id} />
                 ))}
-            </div>
+                </div>
                 )}
         </div>
     );

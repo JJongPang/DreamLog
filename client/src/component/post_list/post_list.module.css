@@ -1,5 +1,6 @@
 .block {
     margin-top: 3rem;
+    padding: 0 3rem;
 }
 
 button {
@@ -20,11 +21,12 @@ button {
     margin-bottom: 3rem;
 }
 
-.publish {
+.write {
     margin-right: 1rem;
     background: #21c997;
+    transition: all 0.25s ease-in;
 }
 
-.publish:hover {
-    opacity: 0.5;
+.write:hover {
+    opacity: 0.6;
 }
