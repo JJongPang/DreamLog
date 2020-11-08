@@ -8,17 +8,16 @@ const buildLink = ({username, tag, page}) => {
     const query = qs.stringify({tag, page});
     return username ? `/@${username}?${query}` : `/?${query}`
 }
-
 const Paginations = ({page, lastPage, username, tag}) => {
     return (
-        <div className={styles.black}>
-            <Link to={page === 1 ? undefined : buildLink({username, tag, page: page - 1})}>
+        <div className={styles.block}>
+            <Link className={`${styles.disabled} ${styles.first}`} to={page === 1 ? undefined : buildLink({username, tag, page: page - 1})}>
                 <Button>
                     이전
                 </Button>
             </Link>
             <div className={styles.num}>{page}</div>
-            <Link to={page === lastPage ? undefined : buildLink({username, tag, page: page + 1})}>
+            <Link className={`${styles.disabled} ${styles.last}`} to={page === lastPage ? undefined : buildLink({username, tag, page: page + 1})}>
                 <Button>
                     다음
                 </Button>
@@ -26,5 +25,6 @@ const Paginations = ({page, lastPage, username, tag}) => {
         </div>
     );
 };
+
 
 export default Paginations;

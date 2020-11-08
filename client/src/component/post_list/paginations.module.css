@@ -1,7 +1,18 @@
 .block {
     width: 320px;
-    margin: 0, auto;
-    display: flax;
+    margin: 0 auto;
+    display: flex;
     justify-content: space-between;
-    margin-bottom: 3rem;
+}
+
+.first:disabled {
+    background: gray;
+    color: white;
+    cursor: not-allowed;
+}
+
+.last:disabled {
+    background: gray;
+    color: white;
+    cursor: not-allowed;
 }
