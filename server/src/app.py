@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, Markup
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
@@ -135,7 +135,8 @@ def get_editor_data(id):
         'title': editor_data['title'],
         'body': editor_data['body'],
         'tags': editor_data['tags'],
-        'publish_date': editor_data['publish_date']
+        'publish_date': editor_data['publish_date'],
+        "user": editor_data['user']
     })
 
 
@@ -143,17 +144,19 @@ def get_editor_data(id):
 @jwt_required
 def delete_editor(id):
     editor_db.delete_one({'_id': ObjectId(id)})
-    return jsonify({'msg': 'User delete'})
+    return jsonify({'msg': 'data delete'})
 
 
 @app.route('/api/update/<id>', methods=['PUT'])
+@jwt_required
 def updateUser(id):
     editor_db.update_one({'_id': ObjectId(id)}, {'$set': {
-        'body': request.json['email'],
-        'tags': request.json['password'],
+        "title": request.json['title'],
+        'body': request.json['body'],
+        'tags': request.json['tags'],
         'publish_date': datetime.now()
     }})
-    return jsonify({'msg': 'User update'})
+    return jsonify({'msg': 'data update'})
 
 
 @ app.route('/api/list', methods=['GET'])
@@ -168,6 +171,7 @@ def get_editor_list():
             'body': li['body'],
             'tags': li['tags'],
             'publish_date': li['publish_date'],
+            "user": li['user']
         })
     list.reverse()
 

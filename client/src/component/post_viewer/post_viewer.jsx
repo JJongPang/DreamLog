@@ -1,4 +1,6 @@
 import React from 'react';
+import SubInfo from '../common/subinfo/subinfo';
+import Tags from '../common/tag/tags';
 import styles from './post_viewer.module.css';
 
 const PostViewer = ({post, error, loading}) => {
@@ -13,22 +15,13 @@ const PostViewer = ({post, error, loading}) => {
         return null;
     }
     
-    const {title, body, publish_date, tags} = post;
+    const {title, body, publish_date, tags, user} = post;
     return (
         <div className={styles.block}>
             <div className={styles.header}>
                 <h1 className={styles.title}>{title}</h1>
-                <div className={styles.sub_info}>
-                     <span className={styles.sub_title}>
-                        <b>tester</b>
-                    </span>
-                    <span>{new Date(publish_date).toLocaleDateString()}</span>
-                </div>
-                <div className={styles.tag_list}>
-                    {tags.map(tag => (
-                        <div className={styles.tag}>#{tag}</div>
-                    ))}
-                </div>
+                <SubInfo username={user.username} publishDate={publish_date}/>
+                <Tags tags={tags} />
             </div>
             <div className={styles.content} dangerouslySetInnerHTML={{__html: body}} />
         </div>

@@ -3,20 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PostList from '../../component/post_list/post_list';
 import { listPosts } from '../../modules/posts';
+import qs from 'qs';
 
 const PostListConatiner = ({ location, match }) => {
     const dispatch = useDispatch();
-    const { posts, error, loading } = useSelector(({ posts, loading }) => ({
+    const { posts, error, loading, user } = useSelector(({ posts, loading, user }) => ({
         posts: posts.posts,
         error: posts.error,
         loading: loading['posts/LIST_POSTS'],
+        user: user.user,
     }));
 
     useEffect(() => {
-        dispatch(listPosts());
-    }, [dispatch]);
+        const { user } = match.params;
+        const { tag, page } = qs.parse(location.search, {
+            ignoreQueryPrefix: true,
+        });
+        dispatch(listPosts({ tag, user, page }));
+    }, [dispatch, location.search]);
 
-    return <>{posts !== null ? <PostList loading={loading} error={error} posts={posts} /> : <h1>로딩중...</h1>}</>;
+    return <PostList loading={loading} error={error} posts={posts} showWriteButton={user} />;
 };
 
 export default withRouter(PostListConatiner);

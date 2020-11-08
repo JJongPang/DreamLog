@@ -1,0 +1,7 @@
+.block {
+    width: 320px;
+    margin: 0, auto;
+    display: flax;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}

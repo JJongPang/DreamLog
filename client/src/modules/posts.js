@@ -5,9 +5,9 @@ import { takeLatest } from 'redux-saga/effects';
 
 const [LIST_POSTS, LIST_POSTS_SUCCESS, LIST_POSTS_FAILURE] = createRequestActionTypes('posts/LISTS_POSTS');
 
-export const listPosts = createAction(LIST_POSTS);
+export const listPosts = createAction(LIST_POSTS, ({ tag, username, page }) => ({ tag, username, page }));
 
-const listPostsSaga = createRequestSaga(LIST_POSTS, postsAPI.getEditorList);
+const listPostsSaga = createRequestSaga(LIST_POSTS, postsAPI.listPosts);
 export function* postsSaga() {
     yield takeLatest(LIST_POSTS, listPostsSaga);
 }
@@ -15,13 +15,15 @@ export function* postsSaga() {
 const initialState = {
     posts: null,
     error: null,
+    lastPage: 1,
 };
 
 const posts = handleActions(
     {
-        [LIST_POSTS_SUCCESS]: (state, action) => ({
+        [LIST_POSTS_SUCCESS]: (state, { payload: posts, meta: response }) => ({
             ...state,
-            posts: action.payload,
+            posts,
+            lastPage: parseInt(response.headers['Last-page'], 10),
         }),
         [LIST_POSTS_FAILURE]: (state, { payload: error }) => ({
             ...state,

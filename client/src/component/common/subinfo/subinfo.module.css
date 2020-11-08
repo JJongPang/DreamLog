@@ -1,0 +1,8 @@
+.black {
+    margin-top: 1rem;
+    color: gray;
+}
+
+.span:nth-child::after {
+    content: '====';
+}

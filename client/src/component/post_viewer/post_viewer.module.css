@@ -23,7 +23,7 @@
     color: gray;
 }
 
-.sub_title::after {
+.sub_user::after {
     content: '*';
     padding-left: 0.25rem;
     padding-right: 0.25rem;
