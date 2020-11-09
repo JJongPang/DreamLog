@@ -25,3 +25,5 @@ export const updatePost = async ({ id, title, body, tags }) =>
         },
         { withCredentials: true }
     );
+
+export const removePost = async (id) => await axios.delete(`http://localhost:5000/api/delete/${id}`, { withCredentials: true });

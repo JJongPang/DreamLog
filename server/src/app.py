@@ -4,6 +4,7 @@ from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 from flask_json_schema import JsonSchema
+from html_sanitizer import Sanitizer
 import bcrypt
 import math
 
@@ -24,6 +25,22 @@ schema = JsonSchema(app)
 
 editor_db = mongo.db.write
 user_db = mongo.db.user
+
+sanitizer = Sanitizer({
+    "tags": {
+        "a", "h1", "h2", "h3", "strong", "em", "p", "ul", "ol",
+        "li", "br", "sub", "sup", "hr",
+    },
+    "attributes": {"a": ("href", "name", "target", "title", "id", "rel")},
+    "empty": {"hr", "a", "br"},
+    "separate": {"a", "p", "li"},
+    "whitespace": {"br"},
+    "keep_typographic_whitespace": False,
+    "add_nofollow": False,
+    "autolink": False,
+    "element_postprocessors": [],
+    "is_mergeable": lambda e1, e2: True,
+})
 
 
 class User:
@@ -48,6 +65,10 @@ class User:
         resp = jsonify(user_data)
         set_access_cookies(resp, access_token)
         set_refresh_cookies(resp, refresh_token)
+
+        check = sanitizer.sanitize(
+            '<span style="font-weight:bold">some text</span>')
+        print(check)
 
         return resp, 200
 
@@ -85,7 +106,7 @@ class Write:
         else:
             editor_data = {
                 'title': request.json['title'],
-                'body': request.json['body'],
+                'body': sanitizer.sanitize(request.json['body']),
                 'tags': request.json['tags'],
                 'publish_date': datetime.now(),
                 "user": {
@@ -178,8 +199,6 @@ def get_editor_list():
             'publish_date': li['publish_date'],
             "user": li['user']
         })
-    list.reverse()
-
     top_count = editor_db.find().count()
     last_page_num = math.ceil(top_count / limit)
 
