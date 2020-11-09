@@ -9,19 +9,26 @@ const buildLink = ({username, tag, page}) => {
     return username ? `/@${username}?${query}` : `/?${query}`
 }
 const Paginations = ({page, lastPage, username, tag}) => {
+    console.log(lastPage);
     return (
         <div className={styles.block}>
-            <Link className={`${styles.disabled} ${styles.first}`} to={page === 1 ? undefined : buildLink({username, tag, page: page - 1})}>
-                <Button>
-                    이전
-                </Button>
-            </Link>
+            <Button
+                disabled={page === 1}
+                to = {
+                    page === 1 ? undefined : buildLink({username, tag, page: page - 1})
+                }
+            >
+                이전
+            </Button>
             <div className={styles.num}>{page}</div>
-            <Link className={`${styles.disabled} ${styles.last}`} to={page === lastPage ? undefined : buildLink({username, tag, page: page + 1})}>
-                <Button>
-                    다음
-                </Button>
-            </Link>
+            <Button
+                disabled={page === lastPage}
+                to = {
+                    page === lastPage ? undefined : buildLink({username, tag, page: page + 1})
+                }
+            >
+                다음
+            </Button>
         </div>
     );
 };

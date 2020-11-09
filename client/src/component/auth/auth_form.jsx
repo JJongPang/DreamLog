@@ -21,7 +21,7 @@ const AuthForm = ({type, form, onChange, onSubmit, error}) => {
                      <input className={styles.input_password} type="password" autoComplete="new-passowrd" name="passwordConfirm" placeholder="비밀번호 확인" onChange={onChange} value={form.passwordConfirm} />
                 )}
                 {error && <div className={styles.eroor_message}>{error}</div>}
-                <Button className={styles.login_btn}>{text}</Button>
+                <Button className={styles.check_button}>{text}</Button>
             </form>
             <div className={styles.footer}>
                 {type === 'login' ? (

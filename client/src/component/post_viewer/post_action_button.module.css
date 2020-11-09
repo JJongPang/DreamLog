@@ -1,0 +1,28 @@
+.block {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+    margin-top: -1.5rem;
+}
+
+.button_update,
+.button_delete {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: gray;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.button_update:hover,
+.button_delete:hover {
+    background: gray;
+    color: gray;
+}
+
+.button_update {
+    margin-right: 0.25rem;
+}

@@ -48,11 +48,11 @@ const RegisterForm = ({ history }) => {
 
     useEffect(() => {
         if (authError) {
-            if (authError.response.status === 409) {
+            if (authError.message === 'Request failed with status code 409') {
                 setError('이미 존재하는 계정명입니다.');
             }
             console.log('오류발생');
-            console.log(authError);
+            console.log(authError.message);
             setError('회원가입 실패');
             return;
         }

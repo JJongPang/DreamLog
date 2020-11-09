@@ -149,14 +149,19 @@ def delete_editor(id):
 
 @app.route('/api/update/<id>', methods=['PUT'])
 @jwt_required
-def updateUser(id):
-    editor_db.update_one({'_id': ObjectId(id)}, {'$set': {
-        "title": request.json['title'],
+def update_editor(id):
+    username = get_jwt_identity()
+    editor_data = {
+        'title': request.json['title'],
         'body': request.json['body'],
         'tags': request.json['tags'],
-        'publish_date': datetime.now()
-    }})
-    return jsonify({'msg': 'data update'})
+        'publish_date': datetime.now(),
+        "user": {
+            'username': username,
+        }
+    }
+    editor_db.update_one({'_id': ObjectId(id)}, {'$set': editor_data})
+    return jsonify(editor_data)
 
 
 @ app.route('/api/list', methods=['GET'])
