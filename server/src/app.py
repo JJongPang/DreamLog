@@ -4,7 +4,6 @@ from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 from flask_json_schema import JsonSchema
-from html_sanitizer import Sanitizer
 import bcrypt
 import math
 
@@ -25,22 +24,6 @@ schema = JsonSchema(app)
 
 editor_db = mongo.db.write
 user_db = mongo.db.user
-
-sanitizer = Sanitizer({
-    "tags": {
-        "a", "h1", "h2", "h3", "strong", "em", "p", "ul", "ol",
-        "li", "br", "sub", "sup", "hr",
-    },
-    "attributes": {"a": ("href", "name", "target", "title", "id", "rel")},
-    "empty": {"hr", "a", "br"},
-    "separate": {"a", "p", "li"},
-    "whitespace": {"br"},
-    "keep_typographic_whitespace": False,
-    "add_nofollow": False,
-    "autolink": False,
-    "element_postprocessors": [],
-    "is_mergeable": lambda e1, e2: True,
-})
 
 
 class User:
@@ -65,10 +48,6 @@ class User:
         resp = jsonify(user_data)
         set_access_cookies(resp, access_token)
         set_refresh_cookies(resp, refresh_token)
-
-        check = sanitizer.sanitize(
-            '<span style="font-weight:bold">some text</span>')
-        print(check)
 
         return resp, 200
 
@@ -95,6 +74,11 @@ class User:
 
     def check(self):
         username = get_jwt_identity()
+        user_data = {
+            "user": {
+                "username": username
+            }
+        }
         return jsonify(username), 200
 
 
@@ -106,16 +90,16 @@ class Write:
         else:
             editor_data = {
                 'title': request.json['title'],
-                'body': sanitizer.sanitize(request.json['body']),
+                'body': request.json['body'],
                 'tags': request.json['tags'],
                 'publish_date': datetime.now(),
                 "user": {
-                    'username': username,
+                    'username': username
                 }
             }
             editor_db.insert(editor_data)
             editor_data['_id'] = str(editor_data['_id'])
-
+            editor_data['user'].update({"_id": str(editor_data['_id'])})
             return jsonify(editor_data)
 
 
@@ -157,19 +141,19 @@ def get_editor_data(id):
         'body': editor_data['body'],
         'tags': editor_data['tags'],
         'publish_date': editor_data['publish_date'],
-        "user": editor_data['user']
+        "user": editor_data['user'],
     })
 
 
-@app.route('/api/delete/<id>', methods=['DELETE'])
-@jwt_required
+@ app.route('/api/delete/<id>', methods=['DELETE'])
+@ jwt_required
 def delete_editor(id):
     editor_db.delete_one({'_id': ObjectId(id)})
     return jsonify({'msg': 'data delete'})
 
 
-@app.route('/api/update/<id>', methods=['PUT'])
-@jwt_required
+@ app.route('/api/update/<id>', methods=['PUT'])
+@ jwt_required
 def update_editor(id):
     username = get_jwt_identity()
     editor_data = {
@@ -178,14 +162,17 @@ def update_editor(id):
         'tags': request.json['tags'],
         'publish_date': datetime.now(),
         "user": {
-            'username': username,
+            '_id': str(id),
+            'username': username
         }
     }
     editor_db.update_one({'_id': ObjectId(id)}, {'$set': editor_data})
+    editor_data["_id"] = id
     return jsonify(editor_data)
 
 
 @ app.route('/api/list', methods=['GET'])
+@ jwt_required
 def get_editor_list():
     list = []
     page = request.args.get("page", 1, type=int)
