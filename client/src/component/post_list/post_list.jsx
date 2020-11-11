@@ -24,7 +24,7 @@ const PostList = ({posts, loading, error, showWriteButton}) => {
                     <PostItem post={post} key={post._id} />
                 ))}
                 </div>
-                )}
+            )}
         </div>
     );
 };

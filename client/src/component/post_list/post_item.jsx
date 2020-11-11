@@ -7,7 +7,6 @@ import styles from './post_item.module.css';
 const PostItem = ({post}) => {
 
     const {publish_date, user, tags, title, body, _id} = post
-    console.log(post);
     return (
         <div className={styles.block}>
             <Link to={`/@${user.username}/${_id}`}>

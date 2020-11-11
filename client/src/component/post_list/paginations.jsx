@@ -9,7 +9,6 @@ const buildLink = ({username, tag, page}) => {
     return username ? `/@${username}?${query}` : `/?${query}`
 }
 const Paginations = ({page, lastPage, username, tag}) => {
-    console.log(lastPage);
     return (
         <div className={styles.block}>
             <Button

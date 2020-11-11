@@ -39,7 +39,8 @@ const PostViewerContainer = ({ match, history }) => {
     };
 
     const ownPost = (user && user._id) === (post && post.user._id);
-
+    console.log(user._id);
+    console.log(post);
     return (
         <PostViewer
             post={post}

@@ -74,12 +74,12 @@ class User:
 
     def check(self):
         username = get_jwt_identity()
+        check_id = ObjectId()
         user_data = {
-            "user": {
-                "username": username
-            }
+            "_id": str(check_id),
+            "username": username
         }
-        return jsonify(username), 200
+        return jsonify(user_data), 200
 
 
 class Write:
@@ -134,15 +134,17 @@ def post_editor_data():
 @jwt_required
 def get_editor_data(id):
     id = {'_id': ObjectId(id)}
-    editor_data = editor_db.find_one(id)
-    return jsonify({
-        '_id': str(ObjectId(editor_data['_id'])),
-        'title': editor_data['title'],
-        'body': editor_data['body'],
-        'tags': editor_data['tags'],
-        'publish_date': editor_data['publish_date'],
-        "user": editor_data['user'],
-    })
+    find_id = editor_db.find_one(id)
+    editor_data = {
+        '_id': str(ObjectId(find_id['_id'])),
+        'title': find_id['title'],
+        'body': find_id['body'],
+        'tags': find_id['tags'],
+        'publish_date': find_id['publish_date'],
+        "user": find_id['user'],
+    }
+    editor_data["user"].update({"_id": str(editor_data['_id'])})
+    return jsonify(editor_data)
 
 
 @ app.route('/api/delete/<id>', methods=['DELETE'])
@@ -181,11 +183,13 @@ def get_editor_list():
         list.append({
             '_id': str(ObjectId(li['_id'])),
             'title': li['title'],
-            'body': li['body'],
+            'body': Markup(li['body']).striptags(),
             'tags': li['tags'],
             'publish_date': li['publish_date'],
             "user": li['user']
         })
+    list.reverse()
+
     top_count = editor_db.find().count()
     last_page_num = math.ceil(top_count / limit)
 

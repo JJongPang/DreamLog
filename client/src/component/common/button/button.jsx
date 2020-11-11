@@ -12,9 +12,7 @@ const Button = ({to, history, ...rest}) => {
         }
     }
     return (
-        <button className={styles.button} {...rest} onClick={onClick}>
-            
-        </button>
+        <button className={styles.button} {...rest} onClick={onClick} />
     );
 };
 

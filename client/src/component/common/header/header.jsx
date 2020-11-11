@@ -11,7 +11,7 @@ const Header = ({user, onLogout}) => {
                     <Link to='/' className={styles.logo}>DreamLog</Link>
                     {user ? (
                         <div className={styles.right}>
-                            <div className={styles.user_info}>{user}님 꿈 을 기록하세요!</div>
+                            <div className={styles.user_info}>{user.username}님 꿈 을 기록하세요!</div>
                             <Button className={styles.button} onClick={onLogout}>로그아웃</Button>
                         </div>   
                     ) : (
