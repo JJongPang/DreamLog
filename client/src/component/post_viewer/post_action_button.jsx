@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './post_action_button.module.css';
 import Button from '../common/button/button';
 import { useState } from 'react';
-import AskModals from '../common/askModal/ask_modal';
+import AskRemoveModal from './ask_remove_modal';
 
 const PostActionButton = ({onEdit, onRemove}) => {
     const [modal, setModal] = useState(false);
@@ -26,7 +26,7 @@ const PostActionButton = ({onEdit, onRemove}) => {
                 <Button onClick={onEdit} className={styles.button_update}>수정</Button>
                 <Button onClick={onRemoveClick} className={styles.button_delete}>삭제</Button>
             </div>
-            <AskModals 
+            <AskRemoveModal 
                 visible={modal}
                 onConfirm={onConfirm}
                 onCancel={onCancel}

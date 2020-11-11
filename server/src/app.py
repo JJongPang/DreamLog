@@ -6,6 +6,7 @@ from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jw
 from flask_json_schema import JsonSchema
 import bcrypt
 import math
+from operator import itemgetter
 
 app = Flask(__name__)
 
@@ -97,6 +98,7 @@ class Write:
                     'username': username
                 }
             }
+
             editor_db.insert(editor_data)
             editor_data['_id'] = str(editor_data['_id'])
             editor_data['user'].update({"_id": str(editor_data['_id'])})
@@ -131,7 +133,6 @@ def post_editor_data():
 
 
 @ app.route('/api/write/<id>', methods=['GET'])
-@jwt_required
 def get_editor_data(id):
     id = {'_id': ObjectId(id)}
     find_id = editor_db.find_one(id)
@@ -173,32 +174,71 @@ def update_editor(id):
     return jsonify(editor_data)
 
 
+# @ app.route('/api/list', methods=['GET'])
+# def get_editor_list():
+#     list = []
+#     post_id = 1
+#     page = request.args.get("page", 1, type=int)
+#     limit = 10
+#     for li in editor_db.find().skip((page-1) * limit).limit(limit):
+#         list.append({
+#             'post_id': post_id,
+#             '_id': str(ObjectId(li['_id'])),
+#             'title': li['title'],
+#             'body': Markup(li['body']).striptags()[0:50],
+#             'tags': li['tags'],
+#             'publish_date': li['publish_date'],
+#             "user": li['user']
+#         })
+#         post_id = post_id + 1
+
+#     reverse_data = sorted(list, key=lambda x: (x["post_id"]), reverse=True)
+
+#     top_count = editor_db.find().count()
+#     last_page_num = math.ceil(top_count / limit)
+
+#     headers = {'Last-page': last_page_num}
+#     data = jsonify(reverse_data)
+#     resp = make_response(data)
+#     resp.headers = headers
+
+#     return resp
+
 @ app.route('/api/list', methods=['GET'])
-@ jwt_required
 def get_editor_list():
-    list = []
+    # lst = []
+    # post_id = 1
+    # page = request.args.get("page", 1, type=int)
+    # limit = 10
+    # check = editor_db.find()
+    # print(check)
+    # for li in editor_db.find().skip((page-1) * limit).limit(limit):
+    #     editor_data = {
+    #         'post_id': post_id,
+    #         '_id': str(ObjectId(li['_id'])),
+    #         'title': li['title'],
+    #         'body': Markup(li['body']).striptags()[0:50],
+    #         'tags': li['tags'],
+    #         'publish_date': li['publish_date'],
+    #         "user": li['user']
+    #     }
+    #     lst.append(editor_data)
+    #     post_id = post_id + 1
+
+    # reverse_data = sorted(lst, key=lambda x: (x["post_id"]), reverse=True)
+
+    # top_count = editor_db.find().count()
+    # last_page_num = math.ceil(top_count / limit)
+
+    # headers = {'Last-page': last_page_num}
+    # data = jsonify(reverse_data)
+    # resp = make_response(data)
+    # resp.headers = headers
     page = request.args.get("page", 1, type=int)
     limit = 10
     for li in editor_db.find().skip((page-1) * limit).limit(limit):
-        list.append({
-            '_id': str(ObjectId(li['_id'])),
-            'title': li['title'],
-            'body': Markup(li['body']).striptags(),
-            'tags': li['tags'],
-            'publish_date': li['publish_date'],
-            "user": li['user']
-        })
-    list.reverse()
-
-    top_count = editor_db.find().count()
-    last_page_num = math.ceil(top_count / limit)
-
-    headers = {'Last-page': last_page_num}
-    data = jsonify(list)
-    resp = make_response(data)
-    resp.headers = headers
-
-    return resp
+        
+    return 
 
 
 if __name__ == '__main__':
