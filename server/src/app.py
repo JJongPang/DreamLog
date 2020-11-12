@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response, Markup
+from flask import Flask, request, jsonify, make_response, Markup, Response
 from flask_cors import CORS
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
@@ -202,43 +202,32 @@ def update_editor(id):
 #     resp = make_response(data)
 #     resp.headers = headers
 
-#     return resp
-
+#    return resp
 @ app.route('/api/list', methods=['GET'])
 def get_editor_list():
-    # lst = []
-    # post_id = 1
-    # page = request.args.get("page", 1, type=int)
-    # limit = 10
-    # check = editor_db.find()
-    # print(check)
-    # for li in editor_db.find().skip((page-1) * limit).limit(limit):
-    #     editor_data = {
-    #         'post_id': post_id,
-    #         '_id': str(ObjectId(li['_id'])),
-    #         'title': li['title'],
-    #         'body': Markup(li['body']).striptags()[0:50],
-    #         'tags': li['tags'],
-    #         'publish_date': li['publish_date'],
-    #         "user": li['user']
-    #     }
-    #     lst.append(editor_data)
-    #     post_id = post_id + 1
-
-    # reverse_data = sorted(lst, key=lambda x: (x["post_id"]), reverse=True)
-
-    # top_count = editor_db.find().count()
-    # last_page_num = math.ceil(top_count / limit)
-
-    # headers = {'Last-page': last_page_num}
-    # data = jsonify(reverse_data)
-    # resp = make_response(data)
-    # resp.headers = headers
+    lst = []
     page = request.args.get("page", 1, type=int)
     limit = 10
-    for li in editor_db.find().skip((page-1) * limit).limit(limit):
-        
-    return 
+    editor_list = editor_db.find().sort("_id", -1)
+    top_count = editor_db.find().count()
+    last_page_num = math.ceil(top_count / limit)
+    for li in editor_list.skip((page-1) * limit).limit(limit):
+        edit_data = {
+            '_id': str(ObjectId(li['_id'])),
+            'title': li['title'],
+            'body': Markup(li['body']).striptags()[0:50],
+            'tags': li['tags'],
+            'publish_date': li['publish_date'],
+            "user": li['user']
+        }
+        lst.append(edit_data)
+
+    headers = {'last-page': last_page_num}
+    data = jsonify(lst)
+    resp = make_response(data)
+    resp.headers = headers
+
+    return resp
 
 
 if __name__ == '__main__':
