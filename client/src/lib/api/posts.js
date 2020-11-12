@@ -12,9 +12,7 @@ export const listPosts = ({ page, username, tag }) => {
         username,
         tag,
     });
-    return axios.get(`http://localhost:5000/api/list?${queryString}`).then((response) => {
-        console.log(response.headers);
-    });
+    return axios.get(`http://localhost:5000/api/list?${queryString}`, { withCredentials: true });
 };
 
 export const updatePost = ({ id, title, body, tags }) =>

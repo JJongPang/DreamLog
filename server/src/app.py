@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, make_response, Markup, Response
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 from flask_json_schema import JsonSchema
+from flask_request_validator import validate_params, Param, GET, PATH, JSON, Pattern, MaxLength
+from jsonschema import validate, ValidationError
 import bcrypt
 import math
 from operator import itemgetter
@@ -17,6 +19,7 @@ app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
 app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secrets'
+
 # app.secret_key = 'secret'
 CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
@@ -98,6 +101,10 @@ class Write:
                     'username': username
                 }
             }
+            if(editor_data["title"] == ''):
+                return 'title please', 401
+            elif(editor_data["body"] == ''):
+                return 'body please', 401
 
             editor_db.insert(editor_data)
             editor_data['_id'] = str(editor_data['_id'])
@@ -105,30 +112,30 @@ class Write:
             return jsonify(editor_data)
 
 
-@app.route('/token/register', methods=['POST'])
+@ app.route('/token/register', methods=['POST'])
 def signup():
     return User().signup()
 
 
-@app.route('/token/auth', methods=["POST"])
+@ app.route('/token/auth', methods=["POST"])
 def login():
     return User().login()
 
 
-@app.route('/token/remove', methods=["POST"])
+@ app.route('/token/remove', methods=["POST"])
 def logout():
     return User().logout()
 
 
-@app.route('/api/check', methods=["GET"])
-@jwt_required
+@ app.route('/api/check', methods=["GET"])
+@ jwt_required
 def check():
     return User().check()
 
 
 @ app.route('/api/write', methods=['POST'])
-@jwt_required
-def post_editor_data():
+@ jwt_required
+def post_editor_data(*args):
     return Write().write()
 
 
@@ -174,35 +181,6 @@ def update_editor(id):
     return jsonify(editor_data)
 
 
-# @ app.route('/api/list', methods=['GET'])
-# def get_editor_list():
-#     list = []
-#     post_id = 1
-#     page = request.args.get("page", 1, type=int)
-#     limit = 10
-#     for li in editor_db.find().skip((page-1) * limit).limit(limit):
-#         list.append({
-#             'post_id': post_id,
-#             '_id': str(ObjectId(li['_id'])),
-#             'title': li['title'],
-#             'body': Markup(li['body']).striptags()[0:50],
-#             'tags': li['tags'],
-#             'publish_date': li['publish_date'],
-#             "user": li['user']
-#         })
-#         post_id = post_id + 1
-
-#     reverse_data = sorted(list, key=lambda x: (x["post_id"]), reverse=True)
-
-#     top_count = editor_db.find().count()
-#     last_page_num = math.ceil(top_count / limit)
-
-#     headers = {'Last-page': last_page_num}
-#     data = jsonify(reverse_data)
-#     resp = make_response(data)
-#     resp.headers = headers
-
-#    return resp
 @ app.route('/api/list', methods=['GET'])
 def get_editor_list():
     lst = []
@@ -221,12 +199,10 @@ def get_editor_list():
             "user": li['user']
         }
         lst.append(edit_data)
-
-    headers = {'last-page': last_page_num}
     data = jsonify(lst)
+    headers = {'last-page': last_page_num}
     resp = make_response(data)
     resp.headers = headers
-
     return resp
 
 

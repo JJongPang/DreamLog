@@ -21,6 +21,7 @@
 
 .title {
     margin-bottom: 1rem;
+    font-size: 1.5rem;
 }
 
 .description {
@@ -32,11 +33,21 @@
     justify-content: flex-end;
 }
 
+.confirm {
+    background: #7adfc1;
+}
+
+.cancel {
+    margin-right: 0.75rem;
+    background: black;
+}
+
 .cancel,
 .confirm {
     height: 2rem;
 }
 
-.cancel {
-    margin-right: 0.75rem;
+.cancel:hover,
+.confirm:hover {
+    opacity: 0.5;
 }
