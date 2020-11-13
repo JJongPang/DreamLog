@@ -20,11 +20,9 @@ app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secrets'
 
-# app.secret_key = 'secret'
 CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 mongo = PyMongo(app)
-schema = JsonSchema(app)
 
 editor_db = mongo.db.write
 user_db = mongo.db.user
@@ -102,9 +100,9 @@ class Write:
                 }
             }
             if(editor_data["title"] == ''):
-                return 'title please', 401
+                return 'title please', 400
             elif(editor_data["body"] == ''):
-                return 'body please', 401
+                return 'body please', 400
 
             editor_db.insert(editor_data)
             editor_data['_id'] = str(editor_data['_id'])
@@ -135,7 +133,7 @@ def check():
 
 @ app.route('/api/write', methods=['POST'])
 @ jwt_required
-def post_editor_data(*args):
+def post_editor_data():
     return Write().write()
 
 
@@ -158,8 +156,14 @@ def get_editor_data(id):
 @ app.route('/api/delete/<id>', methods=['DELETE'])
 @ jwt_required
 def delete_editor(id):
-    editor_db.delete_one({'_id': ObjectId(id)})
-    return jsonify({'msg': 'data delete'})
+    username = get_jwt_identity()
+    check_id = editor_db.find_one({'_id': ObjectId(id)})["user"]["username"]
+
+    if username != check_id:
+        return 'not fail', 400
+    else:
+        editor_db.delete_one({'_id': ObjectId(id)})
+        return jsonify({'msg': 'data delete'})
 
 
 @ app.route('/api/update/<id>', methods=['PUT'])
