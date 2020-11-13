@@ -170,16 +170,21 @@ def delete_editor(id):
 @ jwt_required
 def update_editor(id):
     username = get_jwt_identity()
-    editor_data = {
-        'title': request.json['title'],
-        'body': request.json['body'],
-        'tags': request.json['tags'],
-        'publish_date': datetime.now(),
-        "user": {
-            '_id': str(id),
-            'username': username
+    check_id = editor_db.find_one({'_id': ObjectId(id)})["user"]["username"]
+
+    if username != check_id:
+        return 'not fail', 400
+    else:
+        editor_data = {
+            'title': request.json['title'],
+            'body': request.json['body'],
+            'tags': request.json['tags'],
+            'publish_date': datetime.now(),
+            "user": {
+                '_id': str(id),
+                'username': username
+            }
         }
-    }
     editor_db.update_one({'_id': ObjectId(id)}, {'$set': editor_data})
     editor_data["_id"] = id
     return jsonify(editor_data)
