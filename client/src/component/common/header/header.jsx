@@ -12,11 +12,11 @@ const Header = ({user, onLogout}) => {
                     {user ? (
                         <div className={styles.right}>
                             <div className={styles.user_info}>{user.username}님 꿈 을 기록하세요!</div>
-                            <Button className={styles.button} onClick={onLogout}>로그아웃</Button>
+                            <Button className={styles.button} onClick={onLogout}>Logout</Button>
                         </div>   
                     ) : (
                         <div className={styles.right}>
-                            <Button className={styles.button} to='/login'>로그인</Button>
+                            <Button className={styles.button} to='/login'>Login</Button>
                         </div>
                     )}
                 </div>

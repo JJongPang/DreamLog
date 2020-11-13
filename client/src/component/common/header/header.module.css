@@ -45,3 +45,20 @@
 .spacer {
     height: 4rem;
 }
+
+@media screen and (max-width: 768px) {
+    .logo {
+        font-size: 1.5rem;
+    }
+    .user_info {
+        display: none;
+    }
+    .button {
+        width: 70px;
+        height: 30px;
+        padding: 0.2rem;
+    }
+    .spacer {
+        height: 1rem;
+    }
+}

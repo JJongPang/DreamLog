@@ -192,13 +192,14 @@ def update_editor(id):
 
 @ app.route('/api/list', methods=['GET'])
 def get_editor_list():
+    # page = request.args.get("page", 1, type=int)
+    # limit = 10
+    # top_count = editor_db.find().count()
+    # last_page_num = math.ceil(top_count / limit)
     lst = []
-    page = request.args.get("page", 1, type=int)
-    limit = 10
     editor_list = editor_db.find().sort("_id", -1)
-    top_count = editor_db.find().count()
-    last_page_num = math.ceil(top_count / limit)
-    for li in editor_list.skip((page-1) * limit).limit(limit):
+    for li in editor_list:
+        # .skip((page-1) * limit).limit(limit):
         edit_data = {
             '_id': str(ObjectId(li['_id'])),
             'title': li['title'],
@@ -208,11 +209,12 @@ def get_editor_list():
             "user": li['user']
         }
         lst.append(edit_data)
-    data = jsonify(lst)
-    headers = {'last-page': last_page_num}
-    resp = make_response(data)
-    resp.headers = headers
-    return resp
+
+    # data = jsonify(lst)
+    # headers = {'last-page': last_page_num}
+    # resp = make_response(data)
+    # resp.headers = headers
+    return jsonify(lst)
 
 
 if __name__ == '__main__':

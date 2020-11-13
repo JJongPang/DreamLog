@@ -27,3 +27,18 @@ a {
 .content {
     font-size: 1.8rem;
 }
+
+@media screen and (max-width: 768px) {
+    .block {
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1em;
+    }
+    .title {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+    }
+    .content {
+        font-size: 1.3rem;
+    }
+}

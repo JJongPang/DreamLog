@@ -14,3 +14,9 @@
 .tag:hover {
     opacity: 0.5;
 }
+
+@media screen and (max-width: 768px) {
+    .tag {
+        font-size: 1rem;
+    }
+}
