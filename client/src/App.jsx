@@ -5,10 +5,11 @@ import PostListPage from './page/post_list_page';
 import PostPage from './page/post_page';
 import RegisterPage from './page/register_page';
 import WritePage from './page/write_page';
+import styles from './App.module.css';
 
 const App = () => {
   return (
-    <div>
+    <div className={styles.block}>
       <Switch>
         <Route exact path={["/@:username", "/"]}>
           <PostListPage />

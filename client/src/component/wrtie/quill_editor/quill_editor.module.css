@@ -24,3 +24,9 @@
 .ql_editor.ql_blank::before {
     left: 0px;
 }
+
+@media screen and (max-width: 768px) {
+    .title {
+        font-size: 2rem;
+    }
+}
