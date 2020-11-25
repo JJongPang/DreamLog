@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo, ObjectId
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, jwt_refresh_token_required, create_refresh_token, get_jwt_identity, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
+from flask_cognito import cognito_auth_required, current_user, current_cognito_jwt
 import bcrypt
 import math
 
@@ -16,8 +17,20 @@ app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secrets'
 
+app.config.extend({
+    'COGNITO_REGION': 'eu-central-1',
+    'COGNITO_USERPOOL_ID': 'eu-central-1c3fea2',
+    # optional
+    # client ID you wish to verify user is authenticated against
+    'COGNITO_APP_CLIENT_ID': 'abcdef123456',
+    # disable token expiration checking for testing purposes
+    'COGNITO_CHECK_TOKEN_EXPIRATION': False,
+    'COGNITO_JWT_HEADER_NAME': 'X-MyApp-Authorization',
+    'COGNITO_JWT_HEADER_PREFIX': 'Bearer',
+})
 
 CORS(app, supports_credentials=True)
+
 jwt = JWTManager(app)
 mongo = PyMongo(app)
 
@@ -107,6 +120,7 @@ class Write:
 
 
 @ app.route('/token/register', methods=['POST'])
+@cognito_auth_required
 def signup():
     return User().signup()
 
