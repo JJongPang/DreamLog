@@ -39,7 +39,7 @@
 - 글삭제
 - 글 목록
 - 글 preview
-- 
+
 <br />
 
 #### DreamLog 영상 소개
